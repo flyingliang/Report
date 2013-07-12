@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\ischool desktop\addmodules\extsmore\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,11 +33,11 @@
   <ItemGroup>
     <Reference Include="Aspose.Cells, Version=4.4.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Library\Aspose.Cells.dll</HintPath>
+      <HintPath>..\..\Library\Aspose.Cells.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Campus.DocumentValidator">
-      <HintPath>..\Library\Campus.DocumentValidator.dll</HintPath>
+      <HintPath>..\..\Library\Campus.DocumentValidator.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevComponents.DotNetBar2, Version=9.5.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
@@ -46,69 +46,75 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA">
-      <HintPath>..\Library\FISCA.dll</HintPath>
+      <HintPath>..\..\Library\FISCA.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Data">
-      <HintPath>..\Library\FISCA.Data.dll</HintPath>
+      <HintPath>..\..\Library\FISCA.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="FISCA.DSAClient">
+      <HintPath>..\..\Library\FISCA.DSAClient.dll</HintPath>
     </Reference>
     <Reference Include="FISCA.DSAUtil">
-      <HintPath>..\Library\FISCA.DSAUtil.dll</HintPath>
+      <HintPath>..\..\Library\FISCA.DSAUtil.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.LogAgent">
-      <HintPath>..\Library\FISCA.LogAgent.dll</HintPath>
+      <HintPath>..\..\Library\FISCA.LogAgent.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Permission">
-      <HintPath>..\Library\FISCA.Permission.dll</HintPath>
+      <HintPath>..\..\Library\FISCA.Permission.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Presentation">
-      <HintPath>..\Library\FISCA.Presentation.dll</HintPath>
+      <HintPath>..\..\Library\FISCA.Presentation.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.UDT">
-      <HintPath>..\Library\FISCA.UDT.dll</HintPath>
+      <HintPath>..\..\Library\FISCA.UDT.dll</HintPath>
     </Reference>
     <Reference Include="Framework">
-      <HintPath>..\Library\SH\Framework.dll</HintPath>
+      <HintPath>..\..\Library\SH\Framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="IntelliSchool.DSA.ClientFramework">
-      <HintPath>..\Library\IntelliSchool.DSA.ClientFramework.dll</HintPath>
+      <HintPath>..\..\Library\IntelliSchool.DSA.ClientFramework.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="K12.Data">
-      <HintPath>..\Library\K12.Data.dll</HintPath>
+      <HintPath>..\..\Library\K12.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="K12.Presentation">
-      <HintPath>..\Library\K12.Presentation.dll</HintPath>
+      <HintPath>..\..\Library\K12.Presentation.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SHSchool.Data">
-      <HintPath>..\Library\SH\SHSchool.Data.dll</HintPath>
+      <HintPath>..\..\Library\SH\SHSchool.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.API.PlugIn">
-      <HintPath>..\Library\SmartSchool.API.PlugIn.dll</HintPath>
+      <HintPath>..\..\Library\SmartSchool.API.PlugIn.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SmartSchool.Common">
+      <HintPath>..\..\Library\SmartSchool.Common.dll</HintPath>
+    </Reference>
     <Reference Include="SmartSchool.Common.DotNetBar">
-      <HintPath>..\Library\SmartSchool.Common.DotNetBar.dll</HintPath>
+      <HintPath>..\..\Library\SmartSchool.Common.DotNetBar.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.Customization.Data">
-      <HintPath>..\Library\SmartSchool.Customization.Data.dll</HintPath>
+      <HintPath>..\..\Library\SmartSchool.Customization.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.Customization.PlugIn">
-      <HintPath>..\Library\SmartSchool.Customization.PlugIn.dll</HintPath>
+      <HintPath>..\..\Library\SmartSchool.Customization.PlugIn.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.ErrorReporting">
-      <HintPath>..\Library\SmartSchool.ErrorReporting.dll</HintPath>
+      <HintPath>..\..\Library\SmartSchool.ErrorReporting.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

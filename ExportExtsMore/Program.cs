@@ -12,9 +12,9 @@ namespace ExportExtsMore
         [MainMethod]
         static public void Main()
         {
-            MenuButton rbItemExport1 = K12.Presentation.NLDPanels.Student.RibbonBarItems["資料統計"]["匯出"]["學務相關匯出"];
+            MenuButton rbItemExport1 = K12.Presentation.NLDPanels.Student.RibbonBarItems["資料統計"]["匯出"]["其它相關匯出"];
             //rbItemExport1["匯出文字評量"].Enable = Permissions.匯出範例權限;
-            rbItemExport1["匯出文字評量"].Click += delegate
+            rbItemExport1["匯出自訂欄位(多)"].Click += delegate
             {
                 SmartSchool.API.PlugIn.Export.Exporter exporter = new ExportExtsMore();
                 ExportExtsMoreUI wizard = new ExportExtsMoreUI(exporter.Text, exporter.Image);
