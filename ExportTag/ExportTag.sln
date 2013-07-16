@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExportTag", "ExportTag\ExportTag.csproj", "{0EA16863-70F4-4F10-A3F9-EBCBFE2C9C1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EA16863-70F4-4F10-A3F9-EBCBFE2C9C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA16863-70F4-4F10-A3F9-EBCBFE2C9C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA16863-70F4-4F10-A3F9-EBCBFE2C9C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA16863-70F4-4F10-A3F9-EBCBFE2C9C1F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
