@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExportExtsMore", "ExportExtsMore.csproj", "{0F192B58-D1E7-4573-96B8-8DC1BCA89377}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExportExtsMore", "ExportExtsMore\ExportExtsMore.csproj", "{4A1D12FA-4D94-4E30-9E9C-E6FC47A0AC82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0F192B58-D1E7-4573-96B8-8DC1BCA89377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F192B58-D1E7-4573-96B8-8DC1BCA89377}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F192B58-D1E7-4573-96B8-8DC1BCA89377}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F192B58-D1E7-4573-96B8-8DC1BCA89377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A1D12FA-4D94-4E30-9E9C-E6FC47A0AC82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A1D12FA-4D94-4E30-9E9C-E6FC47A0AC82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A1D12FA-4D94-4E30-9E9C-E6FC47A0AC82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A1D12FA-4D94-4E30-9E9C-E6FC47A0AC82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

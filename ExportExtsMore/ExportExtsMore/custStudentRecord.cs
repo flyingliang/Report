@@ -27,10 +27,6 @@ namespace ExportExtsMore
         public int? SeatNo { get; private set; }
         public string StudentNumber { get; private set; }
 
-        public string ClassName { get; private set; }
-        public string GradeYear { get; private set; }
-        public string Dept { get; private set; } // in table dept ?
-
         //new atti below
         public string SMSPhone { get; private set; }
         public string MallingAddressZipCode { get; private set; }
@@ -72,6 +68,13 @@ namespace ExportExtsMore
         public string BeforeEnrollmentSeatNo { get; private set; }
         public string BeforeEnrollmentMemo { get; private set; }
         public string BeforeEnrollmentGraduateSchoolYear { get; private set; }
+
+        //from other tables
+        public string ClassName { get; private set; }
+        public string ClassGradeYear { get; private set; }
+        public string RefDeptID { get; private set; }
+        public string DeptName { get; private set; } // in dept table
+
         public enum StudentStatus
         {
             一般 = 0,
@@ -98,15 +101,24 @@ namespace ExportExtsMore
                 this.Name = "" + row["name"];
             if (row.Table.Columns.Contains("english_name"))
                 this.EnglishName = "" + row["english_name"];
-            if (row.Table.Columns.Contains("bithdate"))
+            if (row.Table.Columns.Contains("birthdate"))
             {
                 DateTime tmp;
-                this.Birthday = DateTime.TryParse("" + row["seat_no"], out tmp) ? (DateTime?)tmp : null;
+                this.Birthday = DateTime.TryParse("" + row["birthdate"], out tmp) ? (DateTime?)tmp : null;
             }
             if (row.Table.Columns.Contains("id_number"))
                 this.IDNumber = "" + row["id_number"];
             if (row.Table.Columns.Contains("ref_class_id"))
                 this.RefClassID = "" + row["ref_class_id"];
+            if (row.Table.Columns.Contains("class_name"))
+                this.ClassName = "" + row["class_name"];
+            if (row.Table.Columns.Contains("class_grade_year"))
+                this.ClassGradeYear = "" + row["class_grade_year"];
+            if (row.Table.Columns.Contains("class_ref_dept_id"))
+                this.RefDeptID = "" + row["class_ref_dept_id"];//in table "class"'s ref_dept_id
+            if (row.Table.Columns.Contains("dept_name"))
+                this.DeptName = "" + row["dept_name"];
+
             if (row.Table.Columns.Contains("birth_place"))
                 this.BirthPlace = "" + row["birth_place"];
             if (row.Table.Columns.Contains("student_number"))
@@ -136,7 +148,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("other_phones"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml("" + row["other_phones"]);
+                loadXml(xmlDoc,"" + row["other_phones"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "PhoneList/PhoneNumber", out tmp, 0))
                     this.OtherPhone1 = tmp;
@@ -150,7 +162,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("mailing_address"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml("" + row["mailing_address"]);
+                loadXml(xmlDoc,"" + row["mailing_address"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "AddressList/Address/ZipCode", out tmp))
                     this.MallingAddressZipCode = tmp;
@@ -164,7 +176,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("permanent_address"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml("" + row["permanent_address"]);
+                loadXml(xmlDoc,"" + row["permanent_address"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "AddressList/Address/ZipCode", out tmp))
                     this.PermanentAddressZipCode = tmp;
@@ -178,7 +190,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("diploma_number"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml("" + row["diploma_number"]);
+                loadXml(xmlDoc,"" + row["diploma_number"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "DiplomaNumber", out tmp))
                     this.DiplomaNumber = tmp;
@@ -195,7 +207,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("father_other_info"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml("" + row["father_other_info"]);
+                loadXml(xmlDoc,"" + row["father_other_info"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "FatherOtherInfo/FatherJob", out tmp))
                     this.FatherJob = tmp;
@@ -216,7 +228,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("mother_other_info"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml("" + row["mother_other_info"]);
+                loadXml(xmlDoc,"" + row["mother_other_info"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "MotherOtherInfo/MotherJob", out tmp))
                     this.FatherJob = tmp;
@@ -239,7 +251,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("custodian_other_info"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml("" + row["custodian_other_info"]);
+                loadXml(xmlDoc,"" + row["custodian_other_info"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "CustodianOtherInfo/CustodianJob", out tmp))
                     this.FatherJob = tmp;
@@ -253,7 +265,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("before_enrollment"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml("" + row["before_enrollment"]);
+                loadXml(xmlDoc,"" + row["before_enrollment"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "BeforeEnrollment/School", out tmp))
                     this.BeforeEnrollmentSchool = tmp;
@@ -273,13 +285,17 @@ namespace ExportExtsMore
 
             #endregion
         }
+        public static void loadXml(XmlDocument xmlDoc, string xml)
+        {
+            xmlDoc.LoadXml("<A>" + xml+"</A>");
+        }
         public static bool parseXml(XmlDocument xmlDoc, string xpath, out string output, int elementIndex = 0)
         {
             output = "";
             List<string> r = new List<string>();
             try
             {
-                var elements = xmlDoc.SelectNodes(xpath);
+                var elements = xmlDoc.SelectNodes("A/"+xpath);
                 for (int i = 0; i < elements.Count; i++)
                 {
                     XmlNode element = elements[i];

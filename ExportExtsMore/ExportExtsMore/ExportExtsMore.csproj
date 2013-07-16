@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0F192B58-D1E7-4573-96B8-8DC1BCA89377}</ProjectGuid>
+    <ProjectGuid>{4A1D12FA-4D94-4E30-9E9C-E6FC47A0AC82}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ExportExtsMore</RootNamespace>
     <AssemblyName>ExportExtsMore</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\ischool desktop\addmodules\extsmore\</OutputPath>
+    <OutputPath>..\..\ischool desktop\addmodules\extsmore\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,88 +33,132 @@
   <ItemGroup>
     <Reference Include="Aspose.Cells, Version=4.4.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Library\Aspose.Cells.dll</HintPath>
+      <HintPath>..\..\github\Library\Aspose.Cells.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Aspose.Words, Version=4.4.1.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\github\Library\Aspose.Words.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Campus">
+      <HintPath>..\..\github\Library\Campus.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Campus.Configuration">
+      <HintPath>..\..\github\Library\Campus.Configuration.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Campus.DocumentValidator">
-      <HintPath>..\..\Library\Campus.DocumentValidator.dll</HintPath>
+      <HintPath>..\..\github\Library\Campus.DocumentValidator.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Campus.Import">
+      <HintPath>..\..\github\Library\Campus.Import.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Campus.Report">
+      <HintPath>..\..\github\Library\Campus.Report.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Campus.Validator">
+      <HintPath>..\..\github\Library\Campus.Validator.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Campus.Windows">
+      <HintPath>..\..\github\Library\Campus.Windows.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DataRationality">
+      <HintPath>..\..\github\Library\DataRationality.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevComponents.DotNetBar2, Version=9.5.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Library\DevComponents.DotNetBar2.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\github\Library\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
     <Reference Include="FISCA">
-      <HintPath>..\..\Library\FISCA.dll</HintPath>
+      <HintPath>..\..\github\Library\FISCA.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FISCA.Authentication">
+      <HintPath>..\..\github\Library\FISCA.Authentication.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Data">
-      <HintPath>..\..\Library\FISCA.Data.dll</HintPath>
+      <HintPath>..\..\github\Library\FISCA.Data.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.DSAClient">
-      <HintPath>..\..\Library\FISCA.DSAClient.dll</HintPath>
+      <HintPath>..\..\github\Library\FISCA.DSAClient.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.DSAUtil">
-      <HintPath>..\..\Library\FISCA.DSAUtil.dll</HintPath>
+      <HintPath>..\..\github\Library\FISCA.DSAUtil.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.LogAgent">
-      <HintPath>..\..\Library\FISCA.LogAgent.dll</HintPath>
+      <HintPath>..\..\github\Library\FISCA.LogAgent.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Permission">
-      <HintPath>..\..\Library\FISCA.Permission.dll</HintPath>
+      <HintPath>..\..\github\Library\FISCA.Permission.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.Presentation">
-      <HintPath>..\..\Library\FISCA.Presentation.dll</HintPath>
+      <HintPath>..\..\github\Library\FISCA.Presentation.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FISCA.UDT">
-      <HintPath>..\..\Library\FISCA.UDT.dll</HintPath>
+      <HintPath>..\..\github\Library\FISCA.UDT.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Framework">
-      <HintPath>..\..\Library\SH\Framework.dll</HintPath>
+      <HintPath>..\..\github\Library\SH\Framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="IntelliSchool.DSA.ClientFramework">
-      <HintPath>..\..\Library\IntelliSchool.DSA.ClientFramework.dll</HintPath>
+      <HintPath>..\..\github\Library\IntelliSchool.DSA.ClientFramework.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="K12.Data">
-      <HintPath>..\..\Library\K12.Data.dll</HintPath>
+      <HintPath>..\..\github\Library\K12.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="K12.Presentation">
-      <HintPath>..\..\Library\K12.Presentation.dll</HintPath>
+      <HintPath>..\..\github\Library\K12.Presentation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ReportHelper">
+      <HintPath>..\..\github\Library\ReportHelper.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SHSchool.Data">
-      <HintPath>..\..\Library\SH\SHSchool.Data.dll</HintPath>
+      <HintPath>..\..\github\Library\SH\SHSchool.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.API.PlugIn">
-      <HintPath>..\..\Library\SmartSchool.API.PlugIn.dll</HintPath>
+      <HintPath>..\..\github\Library\SmartSchool.API.PlugIn.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.Common">
-      <HintPath>..\..\Library\SmartSchool.Common.dll</HintPath>
+      <HintPath>..\..\github\Library\SmartSchool.Common.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.Common.DotNetBar">
-      <HintPath>..\..\Library\SmartSchool.Common.DotNetBar.dll</HintPath>
+      <HintPath>..\..\github\Library\SmartSchool.Common.DotNetBar.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.Customization.Data">
-      <HintPath>..\..\Library\SmartSchool.Customization.Data.dll</HintPath>
+      <HintPath>..\..\github\Library\SmartSchool.Customization.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.Customization.PlugIn">
-      <HintPath>..\..\Library\SmartSchool.Customization.PlugIn.dll</HintPath>
+      <HintPath>..\..\github\Library\SmartSchool.Customization.PlugIn.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SmartSchool.ErrorReporting">
-      <HintPath>..\..\Library\SmartSchool.ErrorReporting.dll</HintPath>
+      <HintPath>..\..\github\Library\SmartSchool.ErrorReporting.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -123,28 +167,27 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp">
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="custStudentRecord.cs" />
-    <Compile Include="Export\ExtsMore.cs" />
-    <Compile Include="Export\ExtsMoreUI.cs">
+    <Compile Include="ExtsMore.cs" />
+    <Compile Include="ExtsMoreUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Export\ExtsMoreUI.designer.cs">
+    <Compile Include="ExtsMoreUI.designer.cs">
       <DependentUpon>ExtsMoreUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="extsRecord.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="tool.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Export\ExtsMoreUI.resx">
+    <EmbeddedResource Include="ExtsMoreUI.resx">
       <DependentUpon>ExtsMoreUI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

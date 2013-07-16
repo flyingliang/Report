@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ExportExtsMore")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("office")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ExportExtsMore")]
-[assembly: AssemblyCopyright("Copyright © office 2013")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 下列 GUID 為專案公開 (Expose) 至 COM 時所要使用的 typelib ID
-[assembly: Guid("3ab5ee1d-9194-45a1-aed1-49397b75c335")]
+[assembly: Guid("a059e4b6-cd8c-4811-a48b-cb45973c9254")]
 
 // 組件的版本資訊是由下列四項值構成:
 //

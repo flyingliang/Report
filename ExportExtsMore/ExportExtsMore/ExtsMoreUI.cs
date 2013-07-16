@@ -17,7 +17,7 @@ using SmartSchool.API.PlugIn.Export;
 
 namespace ExportExtsMore
 {
-    public partial class ExportExtsMoreUI : FISCA.Presentation.Controls.BaseForm, SmartSchool.API.PlugIn.Export.ExportWizard
+    public partial class ExtsMoreUI : FISCA.Presentation.Controls.BaseForm, SmartSchool.API.PlugIn.Export.ExportWizard
     {
         private string _Title;
         private IntelliSchool.DSA.ClientFramework.ControlCommunication.ListViewCheckAllManager _CheckAllManager = new IntelliSchool.DSA.ClientFramework.ControlCommunication.ListViewCheckAllManager();
@@ -30,7 +30,7 @@ namespace ExportExtsMore
         private LinkLabel helpButton;
         private PanelEx _OptionsContainer;
 
-        public ExportExtsMoreUI(string title, Image img)
+        public ExtsMoreUI(string title, Image img)
         {
             InitializeComponent();
             _Title = this.Text = title;

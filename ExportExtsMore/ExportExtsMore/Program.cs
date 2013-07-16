@@ -16,8 +16,8 @@ namespace ExportExtsMore
             //rbItemExport1["匯出文字評量"].Enable = Permissions.匯出範例權限;
             rbItemExport1["匯出自訂欄位(多)"].Click += delegate
             {
-                SmartSchool.API.PlugIn.Export.Exporter exporter = new ExportExtsMore();
-                ExportExtsMoreUI wizard = new ExportExtsMoreUI(exporter.Text, exporter.Image);
+                SmartSchool.API.PlugIn.Export.Exporter exporter = new ExtsMore();
+                ExtsMoreUI wizard = new ExtsMoreUI(exporter.Text, exporter.Image);
                 exporter.InitializeExport(wizard);
                 wizard.ShowDialog();
             };
