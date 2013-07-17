@@ -28,7 +28,7 @@ namespace ExportTag
         public ExportTag()
         {
             this.Image = null;
-            this.Text = "匯出自訂欄位(多)";
+            this.Text = "匯出學生類別";
             //刪除ExportFields中 有":"符號
             SelectableFieldsList = ExportFields.FindAll(delegate(string f)
             {
@@ -36,10 +36,13 @@ namespace ExportTag
                 else return false;
             });
             //加上自訂欄位
-            DataTable dt = tool._Q.Select(string.Format("SELECT DISTINCT field_name as field FROM student_exts"));
+            DataTable dt = tool._Q.Select("SELECT DISTINCT tag.prefix AS tag_prefix,tag.name AS tag_name " +
+                    "FROM tag_student " +
+                    "LEFT JOIN tag ON tag_student.ref_tag_id = tag.id " +
+                    "WHERE tag_student.ref_student_id IN (" + string.Join(",", K12.Presentation.NLDPanels.Student.SelectedSource) + ") ");
             foreach (DataRow row in dt.Rows)
             {
-                SelectableFieldsList.Add("自訂欄位:" + row["field"]);
+                SelectableFieldsList.Add(TagRecord.getKeyName("" + row["tag_name"], "" + row["tag_prefix"]));
             }
             SelectableFieldsList.Sort(SortField);
         }
@@ -51,8 +54,8 @@ namespace ExportTag
             wizard.ExportPackage += delegate(object sender, SmartSchool.API.PlugIn.Export.ExportPackageEventArgs e)
             {
                 //取得學生清單
-                if (e.List.Count < 1)
-                    System.Windows.Forms.MessageBox.Show("no student seleted");
+                //if (e.List.Count < 1)
+                //    System.Windows.Forms.MessageBox.Show("no student seleted");
 
                 #region 整理欄位名稱
                 List<string> tmp_ExportFields;
@@ -115,7 +118,27 @@ namespace ExportTag
                 #endregion
 
                 #region 取得及整理類別資料
-                
+                dt = tool._Q.Select("SELECT tag_student.ref_student_id," +
+                    "tag.prefix AS tag_prefix,tag.name AS tag_name " +
+                    "FROM tag_student " +
+                    "LEFT JOIN tag ON tag_student.ref_tag_id = tag.id " +
+                    "WHERE tag_student.ref_student_id IN (" + string.Join(",", e.List) + ") ");
+
+                Dictionary<string, TagRecord> Dic_st_tag = new Dictionary<string, TagRecord>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    // ref_student_id,tag_prefix,tag_name
+                    string id = "" + row["ref_student_id"];
+                    if (!Dic_st_tag.ContainsKey(id))
+                        Dic_st_tag.Add(id, new TagRecord());
+
+                    string tagName = "" + row["tag_name"];
+                    string tagPrefix = "" + row["tag_prefix"];
+                    if (!string.IsNullOrEmpty(tagName))
+                    {
+                        Dic_st_tag[id].setTag(tagName, tagPrefix);
+                    }
+                }
                 #endregion
 
                 //整理填入資料
@@ -156,9 +179,9 @@ namespace ExportTag
                             case "戶籍電話": value = "" + csr.PermanentPhone; break;
                             case "聯絡電話": value = "" + csr.ContactPhone; break;
                             case "行動電話": value = "" + csr.SMSPhone; break;
-                            case "其它電話:1": value = "" + csr.OtherPhone1; break;
-                            case "其它電話:2": value = "" + csr.OtherPhone2; break;
-                            case "其它電話:3": value = "" + csr.OtherPhone3; break;
+                            case "其他電話:1": value = "" + csr.OtherPhone1; break;
+                            case "其他電話:2": value = "" + csr.OtherPhone2; break;
+                            case "其他電話:3": value = "" + csr.OtherPhone3; break;
                             case "監護人姓名": value = "" + csr.CustodianName; break;
                             case "監護人身份證號": value = "" + csr.CustodianIDNumber; break;
                             case "監護人國籍": value = "" + csr.CustodianNationality; break;
@@ -188,8 +211,12 @@ namespace ExportTag
 
                             #region 自訂資料
                             default:
-                                string tmp_field = field.Replace("自訂欄位:", "");
-                               
+                                string tmp_field = field;
+                                if (Dic_st_tag.ContainsKey(row.ID))
+                                {
+                                    if (Dic_st_tag[row.ID].tags.ContainsKey(tmp_field))
+                                        value = Dic_st_tag[row.ID].getTagValues(tmp_field);
+                                }
                                 break;
                             #endregion
                         }

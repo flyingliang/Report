@@ -14,12 +14,17 @@ namespace ExportTag
         {
             MenuButton rbItemExport1 = K12.Presentation.NLDPanels.Student.RibbonBarItems["資料統計"]["匯出"]["學籍相關匯出"];
             //rbItemExport1["匯出文字評量"].Enable = Permissions.匯出範例權限;
-            rbItemExport1["匯出學生類別"].Click += delegate
+            rbItemExport1["匯出學生類別2"].Click += delegate
             {
-                SmartSchool.API.PlugIn.Export.Exporter exporter = new ExportTag();
-                TagUI wizard = new TagUI(exporter.Text, exporter.Image);
-                exporter.InitializeExport(wizard);
-                wizard.ShowDialog();
+                if (K12.Presentation.NLDPanels.Student.SelectedSource.Count < 1)
+                    System.Windows.Forms.MessageBox.Show("no student seleted");
+                else
+                {
+                    SmartSchool.API.PlugIn.Export.Exporter exporter = new ExportTag();
+                    TagUI wizard = new TagUI(exporter.Text, exporter.Image);
+                    exporter.InitializeExport(wizard);
+                    wizard.ShowDialog();
+                }
             };
         }
     }
