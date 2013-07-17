@@ -175,9 +175,9 @@ namespace ExportExtsMore
                             case "戶籍電話": value = "" + csr.PermanentPhone; break;
                             case "聯絡電話": value = "" + csr.ContactPhone; break;
                             case "行動電話": value = "" + csr.SMSPhone; break;
-                            case "其它電話:1": value = "" + csr.OtherPhone1; break;
-                            case "其它電話:2": value = "" + csr.OtherPhone2; break;
-                            case "其它電話:3": value = "" + csr.OtherPhone3; break;
+                            case "其他電話:1": value = "" + csr.OtherPhone1; break;
+                            case "其他電話:2": value = "" + csr.OtherPhone2; break;
+                            case "其他電話:3": value = "" + csr.OtherPhone3; break;
                             case "監護人姓名": value = "" + csr.CustodianName; break;
                             case "監護人身份證號": value = "" + csr.CustodianIDNumber; break;
                             case "監護人國籍": value = "" + csr.CustodianNationality; break;
@@ -208,8 +208,11 @@ namespace ExportExtsMore
                             #region 自訂資料
                             default:
                                 string tmp_field = field.Replace("自訂欄位:", "");
-                                if (Dic_st_exts[row.ID].exts.ContainsKey(tmp_field))
-                                    value = Dic_st_exts[row.ID].exts[tmp_field];
+                                if (Dic_st_exts.ContainsKey(row.ID))
+                                {
+                                    if (Dic_st_exts[row.ID].exts.ContainsKey(tmp_field))
+                                        value = Dic_st_exts[row.ID].exts[tmp_field];
+                                }
                                 break;
                             #endregion
                         }
