@@ -7,12 +7,12 @@ namespace ExportExtsMore
 {
     public static class Permissions
     {
-        //public static string 匯出範例 { get { return "SHSchool.Behavior.Student.Import.Comment"; } }
+        public static string 匯出自訂欄位含基本資料高中 { get { return "plugins.student.export.exts.sh.huangwc.v1"; } }
 
-        //public static bool 匯出範例權限
-        //{
-        //    get { return FISCA.Permission.UserAcl.Current[匯出範例].Executable; }
-        //}
+        public static bool 匯出自訂欄位含基本資料高中權限
+        {
+            get { return FISCA.Permission.UserAcl.Current[匯出自訂欄位含基本資料高中].Executable; }
+        }
 
     }
 }

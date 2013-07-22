@@ -29,6 +29,7 @@ namespace ExportExtsMore
 
         //new atti below
         public string SMSPhone { get; private set; }
+        public string MallingAddress { get; private set; }
         public string MallingAddressZipCode { get; private set; }
         public string MallingAddressCounty { get; private set; }
         public string MallingAddressTown { get; private set; }
@@ -37,6 +38,7 @@ namespace ExportExtsMore
         public string OtherPhone1 { get; private set; }
         public string OtherPhone2 { get; private set; }
         public string OtherPhone3 { get; private set; }
+        public string PermanentAddress { get; private set; }
         public string PermanentAddressZipCode { get; private set; }
         public string PermanentAddressCounty { get; private set; }
         public string PermanentAddressTown { get; private set; }
@@ -148,7 +150,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("other_phones"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                loadXml(xmlDoc,"" + row["other_phones"]);
+                loadXml(xmlDoc, "" + row["other_phones"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "PhoneList/PhoneNumber", out tmp, 0))
                     this.OtherPhone1 = tmp;
@@ -162,7 +164,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("mailing_address"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                loadXml(xmlDoc,"" + row["mailing_address"]);
+                loadXml(xmlDoc, "" + row["mailing_address"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "AddressList/Address/ZipCode", out tmp))
                     this.MallingAddressZipCode = tmp;
@@ -172,11 +174,13 @@ namespace ExportExtsMore
                     this.MallingAddressTown = tmp;
                 if (parseXml(xmlDoc, "AddressList/Address/DetailAddress", out tmp))
                     this.MallingAddressDetailAddress = tmp;
+                if (parseXml(xmlDoc, "AddressList/Address", out tmp))
+                    this.MallingAddress = "[" + this.MallingAddressZipCode + "]" + MallingAddressCounty + MallingAddressTown + MallingAddressDetailAddress;
             }
             if (row.Table.Columns.Contains("permanent_address"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                loadXml(xmlDoc,"" + row["permanent_address"]);
+                loadXml(xmlDoc, "" + row["permanent_address"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "AddressList/Address/ZipCode", out tmp))
                     this.PermanentAddressZipCode = tmp;
@@ -186,11 +190,13 @@ namespace ExportExtsMore
                     this.PermanentAddressTown = tmp;
                 if (parseXml(xmlDoc, "AddressList/Address/DetailAddress", out tmp))
                     this.PermanentAddressDetailAddress = tmp;
+                if (parseXml(xmlDoc, "AddressList/Address", out tmp))
+                    this.PermanentAddress = "[" + this.PermanentAddressZipCode + "]" + PermanentAddressCounty + PermanentAddressTown + PermanentAddressDetailAddress;
             }
             if (row.Table.Columns.Contains("diploma_number"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                loadXml(xmlDoc,"" + row["diploma_number"]);
+                loadXml(xmlDoc, "" + row["diploma_number"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "DiplomaNumber", out tmp))
                     this.DiplomaNumber = tmp;
@@ -207,7 +213,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("father_other_info"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                loadXml(xmlDoc,"" + row["father_other_info"]);
+                loadXml(xmlDoc, "" + row["father_other_info"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "FatherOtherInfo/FatherJob", out tmp))
                     this.FatherJob = tmp;
@@ -228,35 +234,35 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("mother_other_info"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                loadXml(xmlDoc,"" + row["mother_other_info"]);
+                loadXml(xmlDoc, "" + row["mother_other_info"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "MotherOtherInfo/MotherJob", out tmp))
-                    this.FatherJob = tmp;
+                    this.MotherJob = tmp;
                 if (parseXml(xmlDoc, "MotherOtherInfo/MotherEducationDegree", out tmp))
-                    this.FatherEducationDegree = tmp;
+                    this.MotherEducationDegree = tmp;
             }
             #endregion
 
             #region Custodian
             if (row.Table.Columns.Contains("custodian_name"))
-            this.CustodianName = "" + row["custodian_name"];
+                this.CustodianName = "" + row["custodian_name"];
             if (row.Table.Columns.Contains("custodian_nationality"))
-            this.CustodianNationality = "" + row["custodian_nationality"];
+                this.CustodianNationality = "" + row["custodian_nationality"];
             if (row.Table.Columns.Contains("custodian_id_number"))
-            this.CustodianIDNumber = "" + row["custodian_id_number"];
+                this.CustodianIDNumber = "" + row["custodian_id_number"];
             if (row.Table.Columns.Contains("custodian_living"))
-            this.CustodianLiving = mapParentLiving("" + row["custodian_living"]);
+                this.CustodianLiving = mapParentLiving("" + row["custodian_living"]);
             if (row.Table.Columns.Contains("custodian_relationship"))
-            this.CustodianRelationship = "" + row["custodian_relationship"];
+                this.CustodianRelationship = "" + row["custodian_relationship"];
             if (row.Table.Columns.Contains("custodian_other_info"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                loadXml(xmlDoc,"" + row["custodian_other_info"]);
+                loadXml(xmlDoc, "" + row["custodian_other_info"]);
                 string tmp = "";
-                if (parseXml(xmlDoc, "CustodianOtherInfo/CustodianJob", out tmp))
-                    this.FatherJob = tmp;
-                if (parseXml(xmlDoc, "CustodianOtherInfo/CustodianEducationDegree", out tmp))
-                    this.FatherEducationDegree = tmp;
+                if (parseXml(xmlDoc, "CustodianOtherInfo/Job", out tmp))
+                    this.CustodianJob = tmp;
+                if (parseXml(xmlDoc, "CustodianOtherInfo/EducationDegree", out tmp))
+                    this.CustodianEducationDegree = tmp;
             }
             #endregion
 
@@ -265,7 +271,7 @@ namespace ExportExtsMore
             if (row.Table.Columns.Contains("before_enrollment"))
             {
                 XmlDocument xmlDoc = new XmlDocument();
-                loadXml(xmlDoc,"" + row["before_enrollment"]);
+                loadXml(xmlDoc, "" + row["before_enrollment"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "BeforeEnrollment/School", out tmp))
                     this.BeforeEnrollmentSchool = tmp;
@@ -287,7 +293,7 @@ namespace ExportExtsMore
         }
         public static void loadXml(XmlDocument xmlDoc, string xml)
         {
-            xmlDoc.LoadXml("<A>" + xml+"</A>");
+            xmlDoc.LoadXml("<A>" + xml + "</A>");
         }
         public static bool parseXml(XmlDocument xmlDoc, string xpath, out string output, int elementIndex = 0)
         {
@@ -295,7 +301,7 @@ namespace ExportExtsMore
             List<string> r = new List<string>();
             try
             {
-                var elements = xmlDoc.SelectNodes("A/"+xpath);
+                var elements = xmlDoc.SelectNodes("A/" + xpath);
                 for (int i = 0; i < elements.Count; i++)
                 {
                     XmlNode element = elements[i];

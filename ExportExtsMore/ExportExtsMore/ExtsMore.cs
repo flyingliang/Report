@@ -17,23 +17,26 @@ namespace ExportExtsMore
         {
             //"學生系統編號","學號","班級","座號","姓名",
              "身份證號","國籍","出生地","生日","性別","英文姓名","科別","年級","登入帳號","帳號類型"
-            ,"戶籍地址","戶籍:郵遞區號","戶籍:縣市","戶籍:鄉鎮市區","戶籍:村里街號","戶籍電話"
-            ,"聯絡地址","聯絡:郵遞區號", "聯絡:縣市", "聯絡:鄉鎮市區", "聯絡:村里街號","聯絡電話"
-            ,"行動電話","其他電話", "其他電話:1", "其他電話:2", "其他電話:3"
-            ,"監護人姓名","監護人身份證號","監護人國籍","監護人稱謂","監護人其他資訊","監護人:學歷", "監護人:職業"
-            ,"父親姓名","父親身份證號","父親國籍","父親存歿","父親其他資訊","父親:學歷", "父親:職業"
-            ,"母親姓名","母親身份證號","母親國籍","母親存歿","母親其他資訊","母親:學歷", "母親:職業"
-            ,"前級畢業資訊","前級:學校名稱", "前級:學校所在地", "前級:班級", "前級:座號", "前級:備註", "前級:國中畢業年度","畢結業證書字號"
+            ,"戶籍地址","戶籍地址:郵遞區號","戶籍地址:縣市","戶籍地址:鄉鎮市區","戶籍地址:村里街號","戶籍電話"
+            ,"聯絡地址","聯絡地址:郵遞區號", "聯絡地址:縣市", "聯絡地址:鄉鎮市區", "聯絡地址:村里街號","聯絡電話"
+            ,"行動電話",/*"其他電話",*/ "其他電話:1", "其他電話:2", "其他電話:3"
+            ,"監護人姓名","監護人身份證號","監護人國籍","監護人稱謂",/*"監護人其他資訊",*/"監護人其他:學歷", "監護人其他:職業"
+            ,"父親姓名","父親身份證號","父親國籍","父親存歿",/*"父親其他資訊",*/"父親其他:學歷", "父親其他:職業"
+            ,"母親姓名","母親身份證號","母親國籍","母親存歿",/*"母親其他資訊",*/"母親其他:學歷", "母親其他:職業"
+            ,/*"前級畢業資訊",*/"前級畢業:學校名稱", "前級畢業:學校所在地", "前級畢業:班級", "前級畢業:座號", "前級畢業:備註", "前級畢業:國中畢業年度"
+            ,"畢結業證書字號"
         };
         public ExtsMore()
         {
             this.Image = null;
-            this.Text = "匯出自訂欄位(多)";
-            //刪除ExportFields中 有":"符號
+            this.Text = "匯出自訂欄位(含基本資料,高中)";
+
             SelectableFieldsList = ExportFields.FindAll(delegate(string f)
             {
-                if (f.IndexOf(":") == -1) return true;
-                else return false;
+                //刪除ExportFields中 有":"符號
+                //if (f.IndexOf(":") == -1) return true;
+                //else return false;
+                return true;
             });
             //加上自訂欄位
             DataTable dt = tool._Q.Select(string.Format("SELECT DISTINCT field_name as field FROM student_exts"));
@@ -51,11 +54,11 @@ namespace ExportExtsMore
             wizard.ExportPackage += delegate(object sender, SmartSchool.API.PlugIn.Export.ExportPackageEventArgs e)
             {
                 //取得學生清單
-                if (e.List.Count < 1)
-                    System.Windows.Forms.MessageBox.Show("no student seleted");
+                //if (e.List.Count < 1)
+                //    System.Windows.Forms.MessageBox.Show("no student seleted");
 
-                #region 整理欄位名稱
-                List<string> tmp_ExportFields;
+                #region 整理欄位名稱 unused
+                /*List<string> tmp_ExportFields;
                 tmp_ExportFields = e.ExportFields.ToList<string>();
                 foreach (string field in tmp_ExportFields)
                 {
@@ -95,7 +98,7 @@ namespace ExportExtsMore
                     }
                     else e.ExportFields.Remove(field);
                 }
-                e.ExportFields.Sort(SortField);
+                e.ExportFields.Sort(SortField);*/
                 #endregion
 
                 #region 取得及整理學生欄位資料
@@ -164,14 +167,16 @@ namespace ExportExtsMore
                             case "年級": value = "" + csr.ClassGradeYear; break;
                             case "登入帳號": value = "" + csr.SALoginName; break;
                             case "帳號類型": value = "" + csr.AccountType; break;
-                            case "戶籍:郵遞區號": value = "" + csr.PermanentAddressZipCode; break;
-                            case "戶籍:縣市": value = "" + csr.PermanentAddressCounty; break;
-                            case "戶籍:鄉鎮市區": value = "" + csr.PermanentAddressTown; break;
-                            case "戶籍:村里街號": value = "" + csr.PermanentAddressDetailAddress; break;
-                            case "聯絡:郵遞區號": value = "" + csr.MallingAddressZipCode; break;
-                            case "聯絡:縣市": value = "" + csr.MallingAddressCounty; break;
-                            case "聯絡:鄉鎮市區": value = "" + csr.MallingAddressTown; break;
-                            case "聯絡:村里街號": value = "" + csr.MallingAddressDetailAddress; break;
+                            case "戶籍地址": value = "" + csr.PermanentAddress; break;//new
+                            case "戶籍地址:郵遞區號": value = "" + csr.PermanentAddressZipCode; break;
+                            case "戶籍地址:縣市": value = "" + csr.PermanentAddressCounty; break;
+                            case "戶籍地址:鄉鎮市區": value = "" + csr.PermanentAddressTown; break;
+                            case "戶籍地址:村里街號": value = "" + csr.PermanentAddressDetailAddress; break;
+                            case "聯絡地址": value = "" + csr.MallingAddress; break;
+                            case "聯絡地址:郵遞區號": value = "" + csr.MallingAddressZipCode; break;
+                            case "聯絡地址:縣市": value = "" + csr.MallingAddressCounty; break;
+                            case "聯絡地址:鄉鎮市區": value = "" + csr.MallingAddressTown; break;
+                            case "聯絡地址:村里街號": value = "" + csr.MallingAddressDetailAddress; break;
                             case "戶籍電話": value = "" + csr.PermanentPhone; break;
                             case "聯絡電話": value = "" + csr.ContactPhone; break;
                             case "行動電話": value = "" + csr.SMSPhone; break;
@@ -182,26 +187,26 @@ namespace ExportExtsMore
                             case "監護人身份證號": value = "" + csr.CustodianIDNumber; break;
                             case "監護人國籍": value = "" + csr.CustodianNationality; break;
                             case "監護人稱謂": value = "" + csr.CustodianRelationship; break;
-                            case "監護人:學歷": value = "" + csr.CustodianEducationDegree; break;
-                            case "監護人:職業": value = "" + csr.CustodianJob; break;
+                            case "監護人其他:學歷": value = "" + csr.CustodianEducationDegree; break;
+                            case "監護人其他:職業": value = "" + csr.CustodianJob; break;
                             case "父親姓名": value = "" + csr.FatherName; break;
                             case "父親身份證號": value = "" + csr.FatherIDNumber; break;
                             case "父親國籍": value = "" + csr.FatherNationality; break;
                             case "父親存歿": value = "" + csr.FatherLiving; break;
-                            case "父親:學歷": value = "" + csr.FatherEducationDegree; break;
-                            case "父親:職業": value = "" + csr.FatherJob; break;
+                            case "父親其他:學歷": value = "" + csr.FatherEducationDegree; break;
+                            case "父親其他:職業": value = "" + csr.FatherJob; break;
                             case "母親姓名": value = "" + csr.MotherName; break;
                             case "母親身份證號": value = "" + csr.MotherIDNumber; break;
                             case "母親國籍": value = "" + csr.MotherNationality; break;
                             case "母親存歿": value = "" + csr.MotherLiving; break;
-                            case "母親:學歷": value = "" + csr.MotherEducationDegree; break;
-                            case "母親:職業": value = "" + csr.MotherJob; break;
-                            case "前級:學校名稱": value = "" + csr.BeforeEnrollmentSchool; break;
-                            case "前級:學校所在地": value = "" + csr.BeforeEnrollmentSchoolLocation; break;
-                            case "前級:班級": value = "" + csr.BeforeEnrollmentClassName; break;
-                            case "前級:座號": value = "" + csr.BeforeEnrollmentSeatNo; break;
-                            case "前級:備註": value = "" + csr.BeforeEnrollmentMemo; break;
-                            case "前級:國中畢業年度": value = "" + csr.BeforeEnrollmentGraduateSchoolYear; break;
+                            case "母親其他:學歷": value = "" + csr.MotherEducationDegree; break;
+                            case "母親其他:職業": value = "" + csr.MotherJob; break;
+                            case "前級畢業:學校名稱": value = "" + csr.BeforeEnrollmentSchool; break;
+                            case "前級畢業:學校所在地": value = "" + csr.BeforeEnrollmentSchoolLocation; break;
+                            case "前級畢業:班級": value = "" + csr.BeforeEnrollmentClassName; break;
+                            case "前級畢業:座號": value = "" + csr.BeforeEnrollmentSeatNo; break;
+                            case "前級畢業:備註": value = "" + csr.BeforeEnrollmentMemo; break;
+                            case "前級畢業:國中畢業年度": value = "" + csr.BeforeEnrollmentGraduateSchoolYear; break;
                             case "畢結業證書字號": value = "" + csr.DiplomaNumber; break;
                             #endregion
 
