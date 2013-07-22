@@ -29,6 +29,7 @@ namespace ExportTag
 
         //new atti below
         public string SMSPhone { get; private set; }
+        public string MallingAddress { get; private set; }
         public string MallingAddressZipCode { get; private set; }
         public string MallingAddressCounty { get; private set; }
         public string MallingAddressTown { get; private set; }
@@ -37,6 +38,7 @@ namespace ExportTag
         public string OtherPhone1 { get; private set; }
         public string OtherPhone2 { get; private set; }
         public string OtherPhone3 { get; private set; }
+        public string PermanentAddress { get; private set; }
         public string PermanentAddressZipCode { get; private set; }
         public string PermanentAddressCounty { get; private set; }
         public string PermanentAddressTown { get; private set; }
@@ -172,6 +174,8 @@ namespace ExportTag
                     this.MallingAddressTown = tmp;
                 if (parseXml(xmlDoc, "AddressList/Address/DetailAddress", out tmp))
                     this.MallingAddressDetailAddress = tmp;
+                if (parseXml(xmlDoc, "AddressList/Address", out tmp))
+                    this.MallingAddress = "[" + this.MallingAddressZipCode + "]" + MallingAddressCounty + MallingAddressTown + MallingAddressDetailAddress;
             }
             if (row.Table.Columns.Contains("permanent_address"))
             {
@@ -186,6 +190,8 @@ namespace ExportTag
                     this.PermanentAddressTown = tmp;
                 if (parseXml(xmlDoc, "AddressList/Address/DetailAddress", out tmp))
                     this.PermanentAddressDetailAddress = tmp;
+                if (parseXml(xmlDoc, "AddressList/Address", out tmp))
+                    this.PermanentAddress = "[" + this.PermanentAddressZipCode + "]" + PermanentAddressCounty + PermanentAddressTown + PermanentAddressDetailAddress;
             }
             if (row.Table.Columns.Contains("diploma_number"))
             {
@@ -231,9 +237,9 @@ namespace ExportTag
                 loadXml(xmlDoc,"" + row["mother_other_info"]);
                 string tmp = "";
                 if (parseXml(xmlDoc, "MotherOtherInfo/MotherJob", out tmp))
-                    this.FatherJob = tmp;
+                    this.MotherJob = tmp;
                 if (parseXml(xmlDoc, "MotherOtherInfo/MotherEducationDegree", out tmp))
-                    this.FatherEducationDegree = tmp;
+                    this.MotherEducationDegree = tmp;
             }
             #endregion
 
@@ -253,10 +259,10 @@ namespace ExportTag
                 XmlDocument xmlDoc = new XmlDocument();
                 loadXml(xmlDoc,"" + row["custodian_other_info"]);
                 string tmp = "";
-                if (parseXml(xmlDoc, "CustodianOtherInfo/CustodianJob", out tmp))
-                    this.FatherJob = tmp;
-                if (parseXml(xmlDoc, "CustodianOtherInfo/CustodianEducationDegree", out tmp))
-                    this.FatherEducationDegree = tmp;
+                if (parseXml(xmlDoc, "CustodianOtherInfo/Job", out tmp))
+                    this.CustodianJob = tmp;
+                if (parseXml(xmlDoc, "CustodianOtherInfo/EducationDegree", out tmp))
+                    this.CustodianEducationDegree = tmp;
             }
             #endregion
 
