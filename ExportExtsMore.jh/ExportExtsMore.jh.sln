@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExportExtsMore.jh", "ExportExtsMore.jh\ExportExtsMore.jh.csproj", "{0487F5DF-1A00-4904-84F2-3C95F6607796}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0487F5DF-1A00-4904-84F2-3C95F6607796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0487F5DF-1A00-4904-84F2-3C95F6607796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0487F5DF-1A00-4904-84F2-3C95F6607796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0487F5DF-1A00-4904-84F2-3C95F6607796}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
