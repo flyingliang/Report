@@ -5,14 +5,16 @@ using System.Text;
 using FISCA.Presentation;
 using FISCA;
 using FISCA.Permission;
+
 namespace ExportExtsMore
 {
-    public class Program
+    /*public class Program
     {
         [MainMethod]
         static public void Main()
         {
-            MenuButton rbItemExport1 = K12.Presentation.NLDPanels.Student.RibbonBarItems["資料統計"]["報表"]["其它相關報表"];
+            
+            /*MenuButton rbItemExport1 = K12.Presentation.NLDPanels.Student.RibbonBarItems["資料統計"]["報表"]["其它相關報表"];
             rbItemExport1["匯出自訂欄位(含基本資料,高中)"].Enable = Permissions.匯出自訂欄位含基本資料高中權限;
             rbItemExport1["匯出自訂欄位(含基本資料,高中)"].Click += delegate
             {
@@ -27,7 +29,7 @@ namespace ExportExtsMore
                 }
             };
             Catalog detail1 = RoleAclSource.Instance["學生"]["報表"];
-            detail1.Add(new RibbonFeature(Permissions.匯出自訂欄位含基本資料高中, "匯出自訂欄位(含基本資料,高中)"));
-        }
-    }
+            detail1.Add(new RibbonFeature(Permissions.匯出自訂欄位含基本資料高中, "匯出自訂欄位(含基本資料,高中)"));*/
+        //}
+    //}
 }

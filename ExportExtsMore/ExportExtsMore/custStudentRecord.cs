@@ -7,7 +7,7 @@ using System.Data;
 using System.Xml;
 namespace ExportExtsMore
 {
-    class custStudentRecord
+    public class custStudentRecord
     {
         //Student
         //public static string[] requiredFields = new string[] { "id" };

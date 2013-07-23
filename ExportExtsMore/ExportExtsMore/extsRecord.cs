@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+
 namespace ExportExtsMore
 {
-    class extsRecord 
+    public class extsRecord 
     {
         public string current_id { get; private set; }
         /// <summary>

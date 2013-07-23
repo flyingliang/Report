@@ -10,7 +10,7 @@ using System.Data;
 namespace ExportExtsMore
 {
 
-    class ExtsMore : SmartSchool.API.PlugIn.Export.Exporter
+    public class ExtsMore : SmartSchool.API.PlugIn.Export.Exporter
     {
         List<string> SelectableFieldsList;
         static List<string> ExportFields = new List<string>
@@ -26,11 +26,22 @@ namespace ExportExtsMore
             ,/*"前級畢業資訊",*/"前級畢業:學校名稱", "前級畢業:學校所在地", "前級畢業:班級", "前級畢業:座號", "前級畢業:備註", "前級畢業:國中畢業年度"
             ,"畢結業證書字號"
         };
-        public ExtsMore()
+        public enum k12type { jh, sh } ;
+        private static Dictionary<string, string> SQL = new Dictionary<string, string>
+        {
+	       {"sh_field", "SELECT DISTINCT field_name as field FROM student_exts WHERE ref_student_id "},
+           {"sh_data" , "SELECT ref_student_id,field_name,value FROM student_exts WHERE ref_student_id "},
+           //{"jh_field", "SELECT DISTINCT fieldname as field FROM $stud.userdefinedata WHERE RefID "},
+           //{"jh_data" , "SELECT RefID as ref_student_id,fieldname as field_name,Value as value FROM $stud.userdefinedata WHERE RefID "}
+           {"jh_field", "SELECT DISTINCT fieldname as field FROM _$_17 WHERE refid "},
+           {"jh_data" , "SELECT refid as ref_student_id,fieldname as field_name,Value as value FROM _$_17 WHERE refid "}
+        };
+        private string k12;
+        public ExtsMore(k12type k12)
         {
             this.Image = null;
-            this.Text = "匯出自訂欄位(含基本資料,高中)";
-
+            this.Text = "匯出自訂欄位(含基本資料)";
+            this.k12 = k12.ToString();
             SelectableFieldsList = ExportFields.FindAll(delegate(string f)
             {
                 //刪除ExportFields中 有":"符號
@@ -39,7 +50,7 @@ namespace ExportExtsMore
                 return true;
             });
             //加上自訂欄位
-            DataTable dt = tool._Q.Select(string.Format("SELECT DISTINCT field_name as field FROM student_exts"));
+            DataTable dt = tool._Q.Select(string.Format(SQL[k12 + "_field"] + " IN ( '" + string.Join("','", K12.Presentation.NLDPanels.Student.SelectedSource) + "' ) "));
             foreach (DataRow row in dt.Rows)
             {
                 SelectableFieldsList.Add("自訂欄位:" + row["field"]);
@@ -123,10 +134,7 @@ namespace ExportExtsMore
                 {
                     tmp_ExtsFields[i] = tmp_ExtsFields[i].Replace("自訂欄位:", "");
                 }
-                dt = tool._Q.Select("SELECT ref_student_id,field_name,value " +
-                "FROM student_exts " +
-                "WHERE ref_student_id IN ( " + string.Join(",", e.List) + " ) " +
-                "AND field_name IN ( '" + string.Join("','", tmp_ExtsFields) + "' ) order by ref_student_id");
+                dt = tool._Q.Select(SQL[k12 + "_data"] + " IN ( '" + string.Join("','", e.List) + "' ) ");
 
                 Dictionary<string, extsRecord> Dic_st_exts = new Dictionary<string, extsRecord>();
                 foreach (DataRow row in dt.Rows)
