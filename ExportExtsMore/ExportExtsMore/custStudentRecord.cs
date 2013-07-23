@@ -174,7 +174,7 @@ namespace ExportExtsMore
                     this.MallingAddressTown = tmp;
                 if (parseXml(xmlDoc, "AddressList/Address/DetailAddress", out tmp))
                     this.MallingAddressDetailAddress = tmp;
-                if (parseXml(xmlDoc, "AddressList/Address", out tmp))
+                if (parseXml(xmlDoc, "AddressList/Address", out tmp) && !string.IsNullOrWhiteSpace(this.MallingAddressDetailAddress))
                     this.MallingAddress = "[" + this.MallingAddressZipCode + "]" + MallingAddressCounty + MallingAddressTown + MallingAddressDetailAddress;
             }
             if (row.Table.Columns.Contains("permanent_address"))
@@ -190,7 +190,7 @@ namespace ExportExtsMore
                     this.PermanentAddressTown = tmp;
                 if (parseXml(xmlDoc, "AddressList/Address/DetailAddress", out tmp))
                     this.PermanentAddressDetailAddress = tmp;
-                if (parseXml(xmlDoc, "AddressList/Address", out tmp))
+                if (parseXml(xmlDoc, "AddressList/Address", out tmp) && !string.IsNullOrWhiteSpace(this.PermanentAddressDetailAddress) )
                     this.PermanentAddress = "[" + this.PermanentAddressZipCode + "]" + PermanentAddressCounty + PermanentAddressTown + PermanentAddressDetailAddress;
             }
             if (row.Table.Columns.Contains("diploma_number"))
