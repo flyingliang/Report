@@ -11,7 +11,7 @@ using DevComponents.DotNetBar;
 using DevComponents.DotNetBar.Rendering;
 using FISCA.LogAgent;
 using Framework;
-using SHSchool.Data;
+using K12.Data;
 using SmartSchool.API.PlugIn;
 using SmartSchool.API.PlugIn.Export;
 
@@ -392,8 +392,8 @@ namespace ExportTag
             {
                 List<string> idlist = new List<string>();
                 #region 取得選取學生編號
-                List<SHStudentRecord> selectedStudents = SHStudent.SelectByIDs(K12.Presentation.NLDPanels.Student.SelectedSource);
-                foreach (SHStudentRecord stu in selectedStudents)
+                List<StudentRecord> selectedStudents = Student.SelectByIDs(K12.Presentation.NLDPanels.Student.SelectedSource);
+                foreach (StudentRecord stu in selectedStudents)
                 {
                     if (!idlist.Contains(stu.ID))
                     {
@@ -506,7 +506,7 @@ namespace ExportTag
 
                 if (Filler[eve].Count != 0)
                 {
-                    SHStudentRecord stud = SHStudent.SelectByID(Filler[eve][0].ID);
+                    StudentRecord stud = Student.SelectByID(Filler[eve][0].ID);
                 }
 
                 if (RowIndex <= 65535)
@@ -515,7 +515,7 @@ namespace ExportTag
                     double miniTotle = 0;
                     foreach (RowData row in Filler[eve])
                     {
-                        SHStudentRecord student = null;
+                        StudentRecord student = null;
                         if (row.ID != "")
                         {
                             if (!StudIDList.Contains(row.ID)) //給Log使用
@@ -523,7 +523,7 @@ namespace ExportTag
                                 StudIDList.Add(row.ID);
                             }
 
-                            student = SHStudent.SelectByID(row.ID);
+                            student = Student.SelectByID(row.ID);
                         }
 
                         if (student != null)
@@ -645,8 +645,8 @@ namespace ExportTag
                 SmartSchool.Customization.PlugIn.Global.SetStatusBarMessage(_Title + "完成。");
 
                 #region Log
-                List<SHStudentRecord> list = SHStudent.SelectByIDs(StudIDList);
-                foreach (SHStudentRecord each in list)
+                List<StudentRecord> list = Student.SelectByIDs(StudIDList);
+                foreach (StudentRecord each in list)
                 {
                     if (each.Class != null)
                     {

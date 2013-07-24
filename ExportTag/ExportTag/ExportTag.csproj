@@ -133,10 +133,6 @@
       <HintPath>..\..\..\Library\ReportHelper.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SHSchool.Data">
-      <HintPath>..\..\..\Library\SH\SHSchool.Data.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="SmartSchool.API.PlugIn">
       <HintPath>..\..\..\Library\SmartSchool.API.PlugIn.dll</HintPath>
       <Private>False</Private>

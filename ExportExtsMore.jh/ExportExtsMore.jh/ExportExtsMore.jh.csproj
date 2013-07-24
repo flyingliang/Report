@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\ischool_JHKH\addmodules\extsmore\</OutputPath>
+    <OutputPath>..\..\..\..\ischool desktop\addmodules\extsmorejh\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -79,7 +79,7 @@
     </Reference>
     <Reference Include="ExportExtsMore, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ischool desktop\addmodules\extsmore\ExportExtsMore.dll</HintPath>
+      <HintPath>..\..\ExportExtsMore\ExportExtsMore.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FISCA">
@@ -116,6 +116,10 @@
     </Reference>
     <Reference Include="FISCA.UDT">
       <HintPath>..\..\..\Library\FISCA.UDT.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Framework">
+      <HintPath>..\..\..\Library\SH\Framework.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="IntelliSchool.DSA.ClientFramework">

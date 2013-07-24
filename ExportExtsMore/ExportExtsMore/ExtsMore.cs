@@ -31,10 +31,10 @@ namespace ExportExtsMore
         {
 	       {"sh_field", "SELECT DISTINCT field_name as field FROM student_exts WHERE ref_student_id "},
            {"sh_data" , "SELECT ref_student_id,field_name,value FROM student_exts WHERE ref_student_id "},
-           //{"jh_field", "SELECT DISTINCT fieldname as field FROM $stud.userdefinedata WHERE RefID "},
-           //{"jh_data" , "SELECT RefID as ref_student_id,fieldname as field_name,Value as value FROM $stud.userdefinedata WHERE RefID "}
-           {"jh_field", "SELECT DISTINCT fieldname as field FROM _$_17 WHERE refid "},
-           {"jh_data" , "SELECT refid as ref_student_id,fieldname as field_name,Value as value FROM _$_17 WHERE refid "}
+           {"jh_field", "SELECT DISTINCT fieldname as field FROM $stud.userdefinedata WHERE RefID "},
+           {"jh_data" , "SELECT RefID as ref_student_id,fieldname as field_name,Value as value FROM $stud.userdefinedata WHERE RefID "}
+           //{"jh_field", "SELECT DISTINCT fieldname as field FROM _$_17 WHERE refid "},
+           //{"jh_data" , "SELECT refid as ref_student_id,fieldname as field_name,Value as value FROM _$_17 WHERE refid "}
         };
         private string k12;
         public ExtsMore(k12type k12)
