@@ -15,13 +15,13 @@ namespace ExportTag
         static List<string> ExportFields = new List<string>
         {
             //"學生系統編號","學號","班級","座號","姓名",
-             "身份證號","國籍","出生地","生日","性別","英文姓名","科別","年級","登入帳號","帳號類型"
+             "身分證號","國籍","出生地","生日","性別","英文姓名","科別","年級","登入帳號","帳號類型"
             ,"戶籍地址","戶籍地址:郵遞區號","戶籍地址:縣市","戶籍地址:鄉鎮市區","戶籍地址:村里街號","戶籍電話"
             ,"聯絡地址","聯絡地址:郵遞區號", "聯絡地址:縣市", "聯絡地址:鄉鎮市區", "聯絡地址:村里街號","聯絡電話"
             ,"行動電話",/*"其他電話",*/ "其他電話:1", "其他電話:2", "其他電話:3"
-            ,"監護人姓名","監護人身份證號","監護人國籍","監護人稱謂",/*"監護人其他資訊",*/"監護人其他:學歷", "監護人其他:職業"
-            ,"父親姓名","父親身份證號","父親國籍","父親存歿",/*"父親其他資訊",*/"父親其他:學歷", "父親其他:職業"
-            ,"母親姓名","母親身份證號","母親國籍","母親存歿",/*"母親其他資訊",*/"母親其他:學歷", "母親其他:職業"
+            ,"監護人姓名","監護人身分證號","監護人國籍","監護人稱謂",/*"監護人其他資訊",*/"監護人其他:學歷", "監護人其他:職業"
+            ,"父親姓名","父親身分證號","父親國籍","父親存歿",/*"父親其他資訊",*/"父親其他:學歷", "父親其他:職業"
+            ,"母親姓名","母親身分證號","母親國籍","母親存歿",/*"母親其他資訊",*/"母親其他:學歷", "母親其他:職業"
             ,/*"前級畢業資訊",*/"前級畢業:學校名稱", "前級畢業:學校所在地", "前級畢業:班級", "前級畢業:座號", "前級畢業:備註", "前級畢業:國中畢業年度"
             ,"畢結業證書字號"
         };
@@ -162,7 +162,7 @@ namespace ExportTag
                                 if (csr.Birthday.HasValue)
                                     value = "" + csr.Birthday.Value.Date.ToShortDateString();
                                 break;
-                            case "身份證號": value = "" + csr.IDNumber; break;
+                            case "身分證號": value = "" + csr.IDNumber; break;
                             case "國籍": value = "" + csr.Nationality; break;
                             case "性別": value = "" + csr.Gender; break;
                             case "英文姓名": value = "" + csr.EnglishName; break;
@@ -187,19 +187,19 @@ namespace ExportTag
                             case "其他電話:2": value = "" + csr.OtherPhone2; break;
                             case "其他電話:3": value = "" + csr.OtherPhone3; break;
                             case "監護人姓名": value = "" + csr.CustodianName; break;
-                            case "監護人身份證號": value = "" + csr.CustodianIDNumber; break;
+                            case "監護人身分證號": value = "" + csr.CustodianIDNumber; break;
                             case "監護人國籍": value = "" + csr.CustodianNationality; break;
                             case "監護人稱謂": value = "" + csr.CustodianRelationship; break;
                             case "監護人其他:學歷": value = "" + csr.CustodianEducationDegree; break;
                             case "監護人其他:職業": value = "" + csr.CustodianJob; break;
                             case "父親姓名": value = "" + csr.FatherName; break;
-                            case "父親身份證號": value = "" + csr.FatherIDNumber; break;
+                            case "父親身分證號": value = "" + csr.FatherIDNumber; break;
                             case "父親國籍": value = "" + csr.FatherNationality; break;
                             case "父親存歿": value = "" + csr.FatherLiving; break;
                             case "父親其他:學歷": value = "" + csr.FatherEducationDegree; break;
                             case "父親其他:職業": value = "" + csr.FatherJob; break;
                             case "母親姓名": value = "" + csr.MotherName; break;
-                            case "母親身份證號": value = "" + csr.MotherIDNumber; break;
+                            case "母親身分證號": value = "" + csr.MotherIDNumber; break;
                             case "母親國籍": value = "" + csr.MotherNationality; break;
                             case "母親存歿": value = "" + csr.MotherLiving; break;
                             case "母親其他:學歷": value = "" + csr.MotherEducationDegree; break;
