@@ -51,6 +51,8 @@ namespace plugins.student.report.certificate
                 }
             }
             comboBoxEx1.Items.Add("新增");
+            comboBoxEx1.SelectedIndex = 0;
+
             _bgw.DoWork += new DoWorkEventHandler(_bgw_DoWork);
             _bgw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(_bgw_RunWorkerCompleted);
         }
@@ -115,13 +117,16 @@ namespace plugins.student.report.certificate
                 mailmerge.Add("學生姓名", sr.Name);
                 mailmerge.Add("學生英文姓名", sr.EnglishName);
                 mailmerge.Add("學生身分證號", sr.IDNumber);
-                mailmerge.Add("學生生日民國年", sr.Birthday.Value.Year - 1911);
-                mailmerge.Add("學生生日英文年", sr.Birthday.Value.Year);
-                mailmerge.Add("學生生日月", sr.Birthday.Value.Month);
-                mailmerge.Add("學生生日英文月", sr.Birthday.Value.ToString("MMMM", new System.Globalization.CultureInfo("en-US")));
-                mailmerge.Add("學生生日英文月3", sr.Birthday.Value.ToString("MMM", new System.Globalization.CultureInfo("en-US")));
-                mailmerge.Add("學生生日上標", daySuffix(sr.Birthday.Value.Day.ToString()));
-                mailmerge.Add("學生生日日", sr.Birthday.Value.Day);
+                if (sr.Birthday.HasValue)
+                {
+                    mailmerge.Add("學生生日民國年", sr.Birthday.Value.Year - 1911);
+                    mailmerge.Add("學生生日英文年", sr.Birthday.Value.Year);
+                    mailmerge.Add("學生生日月", sr.Birthday.Value.Month);
+                    mailmerge.Add("學生生日英文月", sr.Birthday.Value.ToString("MMMM", new System.Globalization.CultureInfo("en-US")));
+                    mailmerge.Add("學生生日英文月3", sr.Birthday.Value.ToString("MMM", new System.Globalization.CultureInfo("en-US")));
+                    mailmerge.Add("學生生日上標", daySuffix(sr.Birthday.Value.Day.ToString()));
+                    mailmerge.Add("學生生日日", sr.Birthday.Value.Day);
+                }
                 if (dic_photo_p.ContainsKey(sr.ID))
                 {
                     mailmerge.Add("入學照片1吋", dic_photo_p[sr.ID]);
