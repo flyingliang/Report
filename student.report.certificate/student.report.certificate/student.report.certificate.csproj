@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.Cells">
+      <HintPath>..\..\..\Library\Aspose.Cells.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Aspose.Words, Version=4.4.1.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Library\Aspose.Words.dll</HintPath>
@@ -67,6 +71,9 @@
     <Reference Include="K12.Presentation">
       <HintPath>..\..\..\Library\K12.Presentation.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="SmartSchool.Customization.Data">
+      <HintPath>..\..\..\Library\SmartSchool.Customization.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

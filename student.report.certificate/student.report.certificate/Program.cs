@@ -13,10 +13,9 @@ namespace plugins.student.report.certificate
         [MainMethod()]
         static public void Main()
         {
-            RibbonBarItem item = FISCA.Presentation.MotherForm.RibbonBarItems["學生", "其它"];
-            //Print["報表"]["社團相關報表"]["社團幹部證明單"].Enable = 社團幹部證明單權限;
-            //Print["報表"]["社團相關報表"]["社團幹部證明單"].Click += delegate
-            item["證明單測試"].Click += delegate
+            MenuButton item = K12.Presentation.NLDPanels.Student.RibbonBarItems["資料統計"]["報表"]["學籍相關報表"];
+            //Print["報表"]["學籍相關報表"]["畢業證(明)單"].Enable = 社團幹部證明單權限;
+            item["畢業證(明)單"].Click += delegate
             {
                 new MainForm().ShowDialog();
             };

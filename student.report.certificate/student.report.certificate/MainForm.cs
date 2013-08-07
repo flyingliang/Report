@@ -27,21 +27,22 @@ namespace plugins.student.report.certificate
         public MainForm()
         {
             InitializeComponent();
-            
-            if (conf.GetBoolean("firstTime", true))
+
+            if (conf.GetBoolean("firstTime", true))//第一次使用時加入
             {
                 //addCustConfig("高中畢業證明書");
                 //ReportConfiguration custConf;
                 //custConf = new Campus.Report.ReportConfiguration(configNameRule("高中畢業證明書"));
                 //custConf.Template = new Campus.Report.ReportTemplate(Properties.Resources.高中畢業證明書, Campus.Report.TemplateType.Word);
                 //custConf.Save();
-                ////addCustConfig("高中畢業證明書(補發)");
-                //custConf = new Campus.Report.ReportConfiguration(configNameRule("高中畢業證明書(補發)"));
-                //custConf.Template = new Campus.Report.ReportTemplate(Properties.Resources.高中畢業證明書(補發), Campus.Report.TemplateType.Word);
+                ////addCustConfig("高中畢業證明書補發");
+                //custConf = new Campus.Report.ReportConfiguration(configNameRule("高中畢業證明書補發"));
+                //custConf.Template = new Campus.Report.ReportTemplate(Properties.Resources.高中畢業證明書補發, Campus.Report.TemplateType.Word);
                 //custConf.Save();
                 //conf.SetBoolean("firstTime", false);
                 //conf.Save();
             }
+            #region 設定comboBox選單
             foreach (string item in getCustConfig())
             {
                 if (!string.IsNullOrWhiteSpace(item))
@@ -52,7 +53,7 @@ namespace plugins.student.report.certificate
             }
             comboBoxEx1.Items.Add("新增");
             comboBoxEx1.SelectedIndex = 0;
-
+            #endregion
             _bgw.DoWork += new DoWorkEventHandler(_bgw_DoWork);
             _bgw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(_bgw_RunWorkerCompleted);
         }
@@ -68,7 +69,7 @@ namespace plugins.student.report.certificate
             }
             TemplateForm = new Campus.Report.TemplateSettingForm(custConfigs[current].Template, new Campus.Report.ReportTemplate(Properties.Resources.證明書範本, Campus.Report.TemplateType.Word));
             //預設名稱
-            TemplateForm.DefaultFileName = "證明書範本";
+            TemplateForm.DefaultFileName = current + "樣板";
             if (TemplateForm.ShowDialog() == DialogResult.OK)
             {
                 custConfigs[current].Template = TemplateForm.Template;
@@ -79,35 +80,50 @@ namespace plugins.student.report.certificate
         {
             string value = (string)comboBoxEx1.SelectedItem;
             if (value == "新增") return;
+            if (K12.Presentation.NLDPanels.Student.SelectedSource.Count < 1)
+            {
+                FISCA.Presentation.Controls.MsgBox.Show("請先選擇學生");
+                return;
+            }
             btnPrint.Enabled = false;
             _bgw.RunWorkerAsync();
         }
         void _bgw_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (K12.Presentation.NLDPanels.Student.SelectedSource.Count < 1)
-            {
-                MessageBox.Show("choice student first");
-                return;
-            }
             Document document = new Document();
-
-            Document template =  (custConfigs[current].Template != null) //單頁範本
+            Document template = (custConfigs[current].Template != null) //單頁範本
                  ? custConfigs[current].Template.ToDocument()
                  : new Campus.Report.ReportTemplate(Properties.Resources.證明書範本, Campus.Report.TemplateType.Word).ToDocument();
 
             List<StudentRecord> srl = Student.SelectByIDs(K12.Presentation.NLDPanels.Student.SelectedSource);
-            List<LeaveInfoRecord> lirl = K12.Data.LeaveInfo.SelectByStudentIDs(K12.Presentation.NLDPanels.Student.SelectedSource);
+            /*List<LeaveInfoRecord> lirl = K12.Data.LeaveInfo.SelectByStudentIDs(K12.Presentation.NLDPanels.Student.SelectedSource);
             Dictionary<string, LeaveInfoRecord> dic_st_lir = new Dictionary<string, LeaveInfoRecord>();
             foreach (LeaveInfoRecord lir in lirl)
             {
                 dic_st_lir.Add(lir.RefStudentID, lir);
+            }*/
+            List<UpdateRecordRecord> urrl = K12.Data.UpdateRecord.SelectByStudentIDs(K12.Presentation.NLDPanels.Student.SelectedSource);
+            Dictionary<string, UpdateRecordRecord> dic_st_urr = new Dictionary<string, UpdateRecordRecord>();
+            foreach (UpdateRecordRecord urr in urrl)
+            {
+                dic_st_urr.Add(urr.StudentID, urr);//如果重複?
             }
             // 入學照片
             Dictionary<string, string> dic_photo_p = K12.Data.Photo.SelectFreshmanPhoto(K12.Presentation.NLDPanels.Student.SelectedSource);
             Dictionary<string, string> dic_photo_g = K12.Data.Photo.SelectGraduatePhoto(K12.Presentation.NLDPanels.Student.SelectedSource);
-
+            Dictionary<string, string> dic_dept_ch_en = new Dictionary<string, string>();
+            XmlElement Data = SmartSchool.Customization.Data.SystemInformation.Configuration["科別中英文對照表"];
+            foreach (XmlElement var in Data)
+            {
+                if (!dic_dept_ch_en.ContainsKey(var.GetAttribute("Chinese")))
+                {
+                    dic_dept_ch_en.Add(var.GetAttribute("Chinese"), var.GetAttribute("English"));
+                }
+            }
             Dictionary<string, object> mailmerge = new Dictionary<string, object>();
+            
             string 校內字號 = textBoxX1.Text;
+            string 校內字號英文 = textBoxX2.Text;
             foreach (StudentRecord sr in srl)
             {
                 mailmerge.Clear();
@@ -137,13 +153,15 @@ namespace plugins.student.report.certificate
                     mailmerge.Add("畢業照片1吋", dic_photo_g[sr.ID]);
                     mailmerge.Add("畢業照片2吋", dic_photo_g[sr.ID]);
                 }
-                if (dic_st_lir.ContainsKey(sr.ID))
+                /*if (dic_st_lir.ContainsKey(sr.ID))//畢業異動?
                 {
+                   
                     mailmerge["離校學年度"] = dic_st_lir[sr.ID].SchoolYear;
                     mailmerge["畢業證書字號"] = dic_st_lir[sr.ID].DiplomaNumber;
-                    mailmerge["離校科別中文"] = "";//? dic_st_lir[sr.ID].de;
-                    mailmerge["離校科別英文"] = "";//?
-                }
+                    mailmerge["離校科別中文"] = dic_st_lir[sr.ID].DepartmentName;
+                    string tmp_dept = dic_st_lir[sr.ID].DepartmentName;
+                    mailmerge["離校科別英文"] = (tmp_dept != null && dic_dept_ch_en.ContainsKey(dic_st_lir[sr.ID].DepartmentName)) ? dic_dept_ch_en[dic_st_lir[sr.ID].DepartmentName] : "";
+                }*/
                 #endregion
 
                 #region 學校資料
@@ -152,8 +170,12 @@ namespace plugins.student.report.certificate
                 mailmerge.Add("校長姓名", "");
                 if (K12.Data.School.Configuration["學校資訊"] != null && K12.Data.School.Configuration["學校資訊"].PreviousData.SelectSingleNode("ChancellorChineseName") != null)
                     mailmerge["校長姓名"] = K12.Data.School.Configuration["學校資訊"].PreviousData.SelectSingleNode("ChancellorChineseName").InnerText;
+                mailmerge.Add("校長姓名英文", "");
+                if (K12.Data.School.Configuration["學校資訊"] != null && K12.Data.School.Configuration["學校資訊"].PreviousData.SelectSingleNode("ChancellorChineseName") != null)
+                    mailmerge["校長姓名英文"] = K12.Data.School.Configuration["學校資訊"].PreviousData.SelectSingleNode("ChancellorEnglishName").InnerText;
                 #endregion
                 mailmerge.Add("校內字號", 校內字號);
+                mailmerge.Add("校內字號英文", 校內字號英文);
                 mailmerge.Add("民國年", DateTime.Today.Year - 1911);
                 mailmerge.Add("英文年", DateTime.Today.Year);
                 mailmerge.Add("月", DateTime.Today.Month);
@@ -174,6 +196,18 @@ namespace plugins.student.report.certificate
         {
             if (e.FieldName == "入學照片1吋" || e.FieldName == "入學照片2吋")
             {
+                int tmp_width;
+                int tmp_height;
+                if (e.FieldName == "入學照片1吋")
+                {
+                    tmp_width = 25 ;
+                    tmp_height = 35;
+                }
+                else
+                {
+                    tmp_width = 35;
+                    tmp_height = 45;
+                }
                 #region 入學照片
                 if (!string.IsNullOrEmpty(e.FieldValue.ToString()))
                 {
@@ -191,18 +225,9 @@ namespace plugins.student.report.certificate
                         //Cell cell = photoBuilder.CurrentParagraph.ParentNode as Cell;
                         //cell.CellFormat.LeftPadding = 0;
                         //cell.CellFormat.RightPadding = 0;
-                        if (e.FieldName == "新生照片1")
-                        {
-                            // 1吋
-                            photoShape.Width = ConvertUtil.MillimeterToPoint(25);
-                            photoShape.Height = ConvertUtil.MillimeterToPoint(35);
-                        }
-                        else
-                        {
-                            //2吋
-                            photoShape.Width = ConvertUtil.MillimeterToPoint(35);
-                            photoShape.Height = ConvertUtil.MillimeterToPoint(45);
-                        }
+
+                        photoShape.Width = ConvertUtil.MillimeterToPoint(tmp_width);
+                        photoShape.Height = ConvertUtil.MillimeterToPoint(tmp_height);
                         //paragraph.AppendChild(photoShape);
                         photoBuilder.InsertNode(photoShape);
                     }
@@ -211,6 +236,18 @@ namespace plugins.student.report.certificate
             }
             else if (e.FieldName == "畢業照片1吋" || e.FieldName == "畢業照片2吋")
             {
+                int tmp_width;
+                int tmp_height;
+                if (e.FieldName == "畢業照片1吋")
+                {
+                    tmp_width = 25;
+                    tmp_height = 35;
+                }
+                else
+                {
+                    tmp_width = 35;
+                    tmp_height = 45;
+                }
                 #region 畢業照片
                 if (!string.IsNullOrEmpty(e.FieldValue.ToString()))
                 {
@@ -228,18 +265,8 @@ namespace plugins.student.report.certificate
                         //Cell cell = photoBuilder.CurrentParagraph.ParentNode as Cell;
                         //cell.CellFormat.LeftPadding = 0;
                         //cell.CellFormat.RightPadding = 0;
-                        if (e.FieldName == "畢業照片1")
-                        {
-                            // 1吋
-                            photoShape.Width = ConvertUtil.MillimeterToPoint(25);
-                            photoShape.Height = ConvertUtil.MillimeterToPoint(35);
-                        }
-                        else
-                        {
-                            //2吋
-                            photoShape.Width = ConvertUtil.MillimeterToPoint(35);
-                            photoShape.Height = ConvertUtil.MillimeterToPoint(45);
-                        }
+                        photoShape.Width = ConvertUtil.MillimeterToPoint(tmp_width);
+                        photoShape.Height = ConvertUtil.MillimeterToPoint(tmp_height);
                         //paragraph.AppendChild(photoShape);
                         photoBuilder.InsertNode(photoShape);
                     }
@@ -292,21 +319,24 @@ namespace plugins.student.report.certificate
                     {
                         input.name = System.Text.RegularExpressions.Regex.Replace(input.name, @"[\W_]+", "");
                         if (string.IsNullOrWhiteSpace(input.name))
-                            MessageBox.Show("not allow special Characters or empty");
+                            FISCA.Presentation.Controls.MsgBox.Show("請輸入樣板名稱(中文或英文字母)");
                         else if (custConfigs.ContainsKey(input.name))
-                            MessageBox.Show("name already exist");
+                            FISCA.Presentation.Controls.MsgBox.Show("樣板名稱已存在");
                         else
                         {
-                            custConfigs.Add(input.name, new ReportConfiguration(configNameRule(input.name)));
+                            ReportConfiguration tmp_conf = new ReportConfiguration(configNameRule(input.name));
+                            if (input.Template != null)
+                                tmp_conf.Template = new ReportTemplate(input.Template);
+                            tmp_conf.Save();
+                            custConfigs.Add(input.name, tmp_conf);
                             addCustConfig(input.name);
                             comboBoxEx1.Items.Insert(0, input.name);
-                            current = input.name;
+                            comboBoxEx1.SelectedIndex = 0;
                         }
                     }
                     break;
                 default:
                     current = value;
-                    //load a items;
                     break;
             }
         }
@@ -363,5 +393,6 @@ namespace plugins.student.report.certificate
                 default: return "th";
             }
         }
+
     }
 }
