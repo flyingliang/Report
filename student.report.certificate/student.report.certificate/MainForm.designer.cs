@@ -35,10 +35,10 @@
             this.comboBoxEx1 = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.delete = new System.Windows.Forms.LinkLabel();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
+            this.textBoxX2 = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.textBoxX1 = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
-            this.textBoxX2 = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.labelX3 = new DevComponents.DotNetBar.LabelX();
             this.groupPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,10 +50,10 @@
             this.linkLabel1.Font = new System.Drawing.Font("微軟正黑體", 9.75F);
             this.linkLabel1.Location = new System.Drawing.Point(232, 18);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(60, 17);
+            this.linkLabel1.Size = new System.Drawing.Size(34, 17);
             this.linkLabel1.TabIndex = 10;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "樣板設定";
+            this.linkLabel1.Text = "設定";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // btnExit
@@ -117,7 +117,7 @@
             // 
             this.delete.AutoSize = true;
             this.delete.BackColor = System.Drawing.Color.Transparent;
-            this.delete.Location = new System.Drawing.Point(298, 18);
+            this.delete.Location = new System.Drawing.Point(272, 18);
             this.delete.Name = "delete";
             this.delete.Size = new System.Drawing.Size(34, 17);
             this.delete.TabIndex = 16;
@@ -170,6 +170,31 @@
             this.groupPanel1.TabIndex = 18;
             this.groupPanel1.Text = "資料";
             // 
+            // labelX3
+            // 
+            // 
+            // 
+            // 
+            this.labelX3.BackgroundStyle.Class = "";
+            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX3.Location = new System.Drawing.Point(4, 35);
+            this.labelX3.Name = "labelX3";
+            this.labelX3.Size = new System.Drawing.Size(92, 23);
+            this.labelX3.TabIndex = 19;
+            this.labelX3.Text = "校內字號英文";
+            // 
+            // textBoxX2
+            // 
+            // 
+            // 
+            // 
+            this.textBoxX2.Border.Class = "TextBoxBorder";
+            this.textBoxX2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.textBoxX2.Location = new System.Drawing.Point(102, 35);
+            this.textBoxX2.Name = "textBoxX2";
+            this.textBoxX2.Size = new System.Drawing.Size(152, 25);
+            this.textBoxX2.TabIndex = 18;
+            // 
             // textBoxX1
             // 
             // 
@@ -196,31 +221,6 @@
             this.labelX2.TabIndex = 17;
             this.labelX2.Text = "校內字號";
             // 
-            // textBoxX2
-            // 
-            // 
-            // 
-            // 
-            this.textBoxX2.Border.Class = "TextBoxBorder";
-            this.textBoxX2.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.textBoxX2.Location = new System.Drawing.Point(102, 35);
-            this.textBoxX2.Name = "textBoxX2";
-            this.textBoxX2.Size = new System.Drawing.Size(152, 25);
-            this.textBoxX2.TabIndex = 18;
-            // 
-            // labelX3
-            // 
-            // 
-            // 
-            // 
-            this.labelX3.BackgroundStyle.Class = "";
-            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX3.Location = new System.Drawing.Point(4, 35);
-            this.labelX3.Name = "labelX3";
-            this.labelX3.Size = new System.Drawing.Size(92, 23);
-            this.labelX3.TabIndex = 19;
-            this.labelX3.Text = "校內字號英文";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -233,7 +233,6 @@
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.labelX1);
             this.Controls.Add(this.btnPrint);
-            this.DoubleBuffered = true;
             this.Name = "MainForm";
             this.Text = "畢業證(明)書";
             this.groupPanel1.ResumeLayout(false);

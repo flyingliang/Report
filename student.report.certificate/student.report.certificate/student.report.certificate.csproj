@@ -72,8 +72,13 @@
       <HintPath>..\..\..\Library\K12.Presentation.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SHSchool.Data">
+      <HintPath>..\..\..\Library\SH\SHSchool.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="SmartSchool.Customization.Data">
       <HintPath>..\..\..\Library\SmartSchool.Customization.Data.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

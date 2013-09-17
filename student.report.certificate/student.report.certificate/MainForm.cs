@@ -94,23 +94,30 @@ namespace plugins.student.report.certificate
             Document template = (custConfigs[current].Template != null) //單頁範本
                  ? custConfigs[current].Template.ToDocument()
                  : new Campus.Report.ReportTemplate(Properties.Resources.證明書範本, Campus.Report.TemplateType.Word).ToDocument();
-
-            List<StudentRecord> srl = Student.SelectByIDs(K12.Presentation.NLDPanels.Student.SelectedSource);
-            /*List<LeaveInfoRecord> lirl = K12.Data.LeaveInfo.SelectByStudentIDs(K12.Presentation.NLDPanels.Student.SelectedSource);
-            Dictionary<string, LeaveInfoRecord> dic_st_lir = new Dictionary<string, LeaveInfoRecord>();
-            foreach (LeaveInfoRecord lir in lirl)
+            List<string> student_ids = K12.Presentation.NLDPanels.Student.SelectedSource;
+            List<StudentRecord> srl = Student.SelectByIDs(student_ids);
+            List<UpdateRecordRecord> urrl = K12.Data.UpdateRecord.SelectByStudentIDs(student_ids);
+            //離校資訊
+            Dictionary<string, SHSchool.Data.SHUpdateRecordRecord> dic_st_urr = new Dictionary<string, SHSchool.Data.SHUpdateRecordRecord>();
+            List<SHSchool.Data.SHUpdateRecordRecord> shurrl = SHSchool.Data.SHUpdateRecord.SelectByStudentIDs(student_ids);
+            foreach( SHSchool.Data.SHUpdateRecordRecord shurr in shurrl)
             {
-                dic_st_lir.Add(lir.RefStudentID, lir);
-            }*/
-            List<UpdateRecordRecord> urrl = K12.Data.UpdateRecord.SelectByStudentIDs(K12.Presentation.NLDPanels.Student.SelectedSource);
-            Dictionary<string, UpdateRecordRecord> dic_st_urr = new Dictionary<string, UpdateRecordRecord>();
-            foreach (UpdateRecordRecord urr in urrl)
-            {
-                dic_st_urr.Add(urr.StudentID, urr);//如果重複?
+                if (shurr.UpdateCode == "501")
+                {
+                    if (dic_st_urr.ContainsKey(shurr.StudentID))
+                    {
+                        if (dic_st_urr[shurr.StudentID].UpdateDate.CompareTo(shurr.UpdateDate) == 1 )
+                        {
+                            dic_st_urr[shurr.StudentID] = shurr;
+                        }
+                    }
+                    else dic_st_urr.Add(shurr.StudentID, shurr);
+                }
             }
-            // 入學照片
+            //入學照片
             Dictionary<string, string> dic_photo_p = K12.Data.Photo.SelectFreshmanPhoto(K12.Presentation.NLDPanels.Student.SelectedSource);
             Dictionary<string, string> dic_photo_g = K12.Data.Photo.SelectGraduatePhoto(K12.Presentation.NLDPanels.Student.SelectedSource);
+            //科別中英文對照表
             Dictionary<string, string> dic_dept_ch_en = new Dictionary<string, string>();
             XmlElement Data = SmartSchool.Customization.Data.SystemInformation.Configuration["科別中英文對照表"];
             foreach (XmlElement var in Data)
@@ -121,7 +128,7 @@ namespace plugins.student.report.certificate
                 }
             }
             Dictionary<string, object> mailmerge = new Dictionary<string, object>();
-            
+
             string 校內字號 = textBoxX1.Text;
             string 校內字號英文 = textBoxX2.Text;
             foreach (StudentRecord sr in srl)
@@ -153,15 +160,14 @@ namespace plugins.student.report.certificate
                     mailmerge.Add("畢業照片1吋", dic_photo_g[sr.ID]);
                     mailmerge.Add("畢業照片2吋", dic_photo_g[sr.ID]);
                 }
-                /*if (dic_st_lir.ContainsKey(sr.ID))//畢業異動?
+                if (dic_st_urr.ContainsKey(sr.ID))//畢業異動?
                 {
-                   
-                    mailmerge["離校學年度"] = dic_st_lir[sr.ID].SchoolYear;
-                    mailmerge["畢業證書字號"] = dic_st_lir[sr.ID].DiplomaNumber;
-                    mailmerge["離校科別中文"] = dic_st_lir[sr.ID].DepartmentName;
-                    string tmp_dept = dic_st_lir[sr.ID].DepartmentName;
-                    mailmerge["離校科別英文"] = (tmp_dept != null && dic_dept_ch_en.ContainsKey(dic_st_lir[sr.ID].DepartmentName)) ? dic_dept_ch_en[dic_st_lir[sr.ID].DepartmentName] : "";
-                }*/
+                    mailmerge["離校學年度"] = dic_st_urr[sr.ID].ExpectGraduateSchoolYear;
+                    mailmerge["畢業證書字號"] = dic_st_urr[sr.ID].GraduateCertificateNumber;
+                    mailmerge["離校科別中文"] = dic_st_urr[sr.ID].Department;
+                    string tmp_dept = dic_st_urr[sr.ID].Department;
+                    mailmerge["離校科別英文"] = (tmp_dept != null && dic_dept_ch_en.ContainsKey(dic_st_urr[sr.ID].Department)) ? dic_dept_ch_en[dic_st_urr[sr.ID].Department] : "";
+                }
                 #endregion
 
                 #region 學校資料
@@ -200,7 +206,7 @@ namespace plugins.student.report.certificate
                 int tmp_height;
                 if (e.FieldName == "入學照片1吋")
                 {
-                    tmp_width = 25 ;
+                    tmp_width = 25;
                     tmp_height = 35;
                 }
                 else
