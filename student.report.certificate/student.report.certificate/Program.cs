@@ -14,8 +14,8 @@ namespace plugins.student.report.certificate
         static public void Main()
         {
             MenuButton item = K12.Presentation.NLDPanels.Student.RibbonBarItems["資料統計"]["報表"]["學籍相關報表"];
-            //Print["報表"]["學籍相關報表"]["畢業證(明)單"].Enable = 社團幹部證明單權限;
-            item["畢業證(明)單"].Click += delegate
+            //Print["報表"]["學籍相關報表"]["畢業證(明)書"].Enable = 社團幹部證明單權限;
+            item["畢業證(明)書"].Click += delegate
             {
                 new MainForm().ShowDialog();
             };
