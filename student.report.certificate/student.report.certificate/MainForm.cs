@@ -13,6 +13,7 @@ using Aspose.Words;
 using Aspose.Words.Drawing;
 using K12.Data;
 using Campus.Report;
+using FISCA.Data;
 namespace plugins.student.report.certificate
 {
     public partial class MainForm : FISCA.Presentation.Controls.BaseForm
@@ -95,7 +96,22 @@ namespace plugins.student.report.certificate
                  ? custConfigs[current].Template.ToDocument()
                  : new Campus.Report.ReportTemplate(Properties.Resources.證明書範本, Campus.Report.TemplateType.Word).ToDocument();
             List<string> student_ids = K12.Presentation.NLDPanels.Student.SelectedSource;
-            List<StudentRecord> srl = Student.SelectByIDs(student_ids);
+            //List<StudentRecord> srl = Student.SelectByIDs(student_ids);
+
+            List<custStudentRecord> csrl = new List<custStudentRecord>();
+                #region 取得及整理學生欄位資料
+                DataTable dt = new QueryHelper().Select("SELECT student.*," +
+                "class.class_name ,class.grade_year AS class_grade_year,class.ref_dept_id AS class_ref_dept_id," +
+                "dept.name AS dept_name " +
+                "FROM student " +
+                "LEFT JOIN class ON student.ref_class_id = class.id " +
+                "LEFT JOIN dept ON dept.id = class.ref_dept_id " +
+                "WHERE student.id IN (" + string.Join(",", student_ids) + ")");
+                foreach (DataRow row in dt.Rows)
+                {
+                    csrl.Add(new custStudentRecord(row));
+                }
+                #endregion
             List<UpdateRecordRecord> urrl = K12.Data.UpdateRecord.SelectByStudentIDs(student_ids);
             //離校資訊
             Dictionary<string, SHSchool.Data.SHUpdateRecordRecord> dic_st_urr = new Dictionary<string, SHSchool.Data.SHUpdateRecordRecord>();
@@ -131,42 +147,48 @@ namespace plugins.student.report.certificate
 
             string 校內字號 = textBoxX1.Text;
             string 校內字號英文 = textBoxX2.Text;
-            foreach (StudentRecord sr in srl)
+            foreach (custStudentRecord csr in csrl)
             {
                 mailmerge.Clear();
                 #region MailMerge
 
                 #region 學生資料
-                mailmerge.Add("學生姓名", sr.Name);
-                mailmerge.Add("學生英文姓名", sr.EnglishName);
-                mailmerge.Add("學生身分證號", sr.IDNumber);
-                if (sr.Birthday.HasValue)
+                mailmerge.Add("學生姓名", csr.Name);
+                mailmerge.Add("學生英文姓名", csr.EnglishName);
+                mailmerge.Add("學生身分證號", csr.IDNumber);
+                mailmerge.Add("學生目前班級",csr.ClassName);
+                mailmerge.Add("學生目前科別",csr.DeptName);
+                mailmerge.Add("學生目前年級",csr.ClassGradeYear);
+                mailmerge.Add("學生目前座號",csr.StudentNumber);
+                if (csr.Birthday.HasValue)
                 {
-                    mailmerge.Add("學生生日民國年", sr.Birthday.Value.Year - 1911);
-                    mailmerge.Add("學生生日英文年", sr.Birthday.Value.Year);
-                    mailmerge.Add("學生生日月", sr.Birthday.Value.Month);
-                    mailmerge.Add("學生生日英文月", sr.Birthday.Value.ToString("MMMM", new System.Globalization.CultureInfo("en-US")));
-                    mailmerge.Add("學生生日英文月3", sr.Birthday.Value.ToString("MMM", new System.Globalization.CultureInfo("en-US")));
-                    mailmerge.Add("學生生日上標", daySuffix(sr.Birthday.Value.Day.ToString()));
-                    mailmerge.Add("學生生日日", sr.Birthday.Value.Day);
+                    mailmerge.Add("學生生日民國年", csr.Birthday.Value.Year - 1911);
+                    mailmerge.Add("學生生日英文年", csr.Birthday.Value.Year);
+                    mailmerge.Add("學生生日月", csr.Birthday.Value.Month);
+                    mailmerge.Add("學生生日英文月", csr.Birthday.Value.ToString("MMMM", new System.Globalization.CultureInfo("en-US")));
+                    mailmerge.Add("學生生日英文月3", csr.Birthday.Value.ToString("MMM", new System.Globalization.CultureInfo("en-US")));
+                    mailmerge.Add("學生生日上標", daySuffix(csr.Birthday.Value.Day.ToString()));
+                    mailmerge.Add("學生生日日",csr.Birthday.Value.Day);
                 }
-                if (dic_photo_p.ContainsKey(sr.ID))
+                if (dic_photo_p.ContainsKey(csr.ID))
                 {
-                    mailmerge.Add("入學照片1吋", dic_photo_p[sr.ID]);
-                    mailmerge.Add("入學照片2吋", dic_photo_p[sr.ID]);
+                    mailmerge.Add("入學照片1吋", dic_photo_p[csr.ID]);
+                    mailmerge.Add("入學照片2吋", dic_photo_p[csr.ID]);
                 }
-                if (dic_photo_p.ContainsKey(sr.ID))
+                if (dic_photo_p.ContainsKey(csr.ID))
                 {
-                    mailmerge.Add("畢業照片1吋", dic_photo_g[sr.ID]);
-                    mailmerge.Add("畢業照片2吋", dic_photo_g[sr.ID]);
+                    mailmerge.Add("畢業照片1吋", dic_photo_g[csr.ID]);
+                    mailmerge.Add("畢業照片2吋", dic_photo_g[csr.ID]);
                 }
-                if (dic_st_urr.ContainsKey(sr.ID))//畢業異動?
+                foreach (string tmp in new string[] {"離校學年度", "畢業證書字號", "離校科別中文", "離校科別英文"})
+                    mailmerge.Add(tmp,"");
+                if (dic_st_urr.ContainsKey(csr.ID))//畢業異動
                 {
-                    mailmerge["離校學年度"] = dic_st_urr[sr.ID].ExpectGraduateSchoolYear;
-                    mailmerge["畢業證書字號"] = dic_st_urr[sr.ID].GraduateCertificateNumber;
-                    mailmerge["離校科別中文"] = dic_st_urr[sr.ID].Department;
-                    string tmp_dept = dic_st_urr[sr.ID].Department;
-                    mailmerge["離校科別英文"] = (tmp_dept != null && dic_dept_ch_en.ContainsKey(dic_st_urr[sr.ID].Department)) ? dic_dept_ch_en[dic_st_urr[sr.ID].Department] : "";
+                    mailmerge["離校學年度"] = dic_st_urr[csr.ID].ExpectGraduateSchoolYear;
+                    mailmerge["畢業證書字號"] = dic_st_urr[csr.ID].GraduateCertificateNumber;
+                    mailmerge["離校科別中文"] = dic_st_urr[csr.ID].Department;
+                    string tmp_dept = dic_st_urr[csr.ID].Department;
+                    mailmerge["離校科別英文"] = (tmp_dept != null && dic_dept_ch_en.ContainsKey(dic_st_urr[csr.ID].Department)) ? dic_dept_ch_en[dic_st_urr[csr.ID].Department] : "";
                 }
                 #endregion
 
@@ -174,6 +196,9 @@ namespace plugins.student.report.certificate
                 mailmerge.Add("學校全銜", School.ChineseName);
                 mailmerge.Add("學校英文全銜", School.EnglishName);
                 mailmerge.Add("校長姓名", "");
+                mailmerge.Add("目前學期",K12.Data.School.DefaultSemester);
+                mailmerge.Add("目前學年度",K12.Data.School.DefaultSchoolYear);
+
                 if (K12.Data.School.Configuration["學校資訊"] != null && K12.Data.School.Configuration["學校資訊"].PreviousData.SelectSingleNode("ChancellorChineseName") != null)
                     mailmerge["校長姓名"] = K12.Data.School.Configuration["學校資訊"].PreviousData.SelectSingleNode("ChancellorChineseName").InnerText;
                 mailmerge.Add("校長姓名英文", "");
