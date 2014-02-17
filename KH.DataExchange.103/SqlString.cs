@@ -134,28 +134,35 @@ from
 	UNION ALL
 		select student.id
 			, '幹部任期次數' as ""科目""
-			,''||count(x1) as ""7上成績""
-			,''||count(x2) as ""7下成績""
-			,''||count(x3) as ""8上成績""
-			,''||count(x4) as ""8下成績""
-			,''||count(x5) as ""9上成績""
+			,''||COUNT(CASE WHEN (x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""7上成績""
+			,''||COUNT(CASE WHEN (x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""7下成績""
+			,''||COUNT(CASE WHEN (x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8上成績""
+			,''||COUNT(CASE WHEN (x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8下成績""
+			,''||COUNT(CASE WHEN (x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""9上成績""
 		from 
-			student 
+			student
+			left outer join class on student.ref_class_id=class.id
 			left join (
 				select 
 					student.id
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear1
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear2
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear3
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear4
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear5
+					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
+					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
+					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
+					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
+					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
 				from student
 			)shistory on student.id=shistory.id
-			left join $behavior.thecadre as x1 on (''||student.id)=x1.studentid and (''||x1.schoolyear)=shistory.schoolyear1 and x1.semester= '1' 
-			left join $behavior.thecadre as x2 on (''||student.id)=x2.studentid and (''||x2.schoolyear)=shistory.schoolyear2 and x2.semester= '2'
-			left join $behavior.thecadre as x3 on (''||student.id)=x3.studentid and (''||x3.schoolyear)=shistory.schoolyear3 and x3.semester= '1' 
-			left join $behavior.thecadre as x4 on (''||student.id)=x4.studentid and (''||x4.schoolyear)=shistory.schoolyear4 and x4.semester= '2' 
-			left join $behavior.thecadre as x5 on (''||student.id)=x5.studentid and (''||x5.schoolyear)=shistory.schoolyear5 and x5.semester= '1' 
+			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 1
+			and (
+				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				or (x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+				or (x1.school_year=shistory.schoolyear4 and x1.semester= 2)
+				or (x1.school_year=shistory.schoolyear5 and x1.semester= 1)
+			)
+		where 
+			student.status = 1 
+			and class.grade_year = 3
 		group by student.id
 		--_$_7 =  $behavior.thecadre
 	UNION ALL
@@ -180,7 +187,7 @@ from
 					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
 				from student
 			)shistory on student.id=shistory.id
-			left join discipline as x1 on student.id=x1.ref_student_id and x1.school_year=shistory.schoolyear1 and x1.semester= 1 and x1.merit_flag = 0
+			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 0
 			and (
 				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
 				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
@@ -214,7 +221,7 @@ from
 					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
 				from student
 			)shistory on student.id=shistory.id
-			left join discipline as x1 on student.id=x1.ref_student_id and x1.school_year=shistory.schoolyear1 and x1.semester= 1 and x1.merit_flag = 0
+			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 0
 			and (
 				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
 				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
@@ -248,7 +255,7 @@ from
 					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
 				from student
 			)shistory on student.id=shistory.id
-			left join discipline as x1 on student.id=x1.ref_student_id and x1.school_year=shistory.schoolyear1 and x1.semester= 1 and x1.merit_flag = 0
+			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 0
 			and (
 				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
 				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
@@ -282,7 +289,7 @@ from
 					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
 				from student
 			)shistory on student.id=shistory.id
-			left join discipline as x1 on student.id=x1.ref_student_id and x1.school_year=shistory.schoolyear1 and x1.semester= 1 and x1.merit_flag = 1
+			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 1
 			and (
 				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
 				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
@@ -316,7 +323,7 @@ from
 					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
 				from student
 			)shistory on student.id=shistory.id
-			left join discipline as x1 on student.id=x1.ref_student_id and x1.school_year=shistory.schoolyear1 and x1.semester= 1 and x1.merit_flag = 1
+			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 1
 			and (
 				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
 				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
@@ -350,7 +357,7 @@ from
 					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
 				from student
 			)shistory on student.id=shistory.id
-			left join discipline as x1 on student.id=x1.ref_student_id and x1.school_year=shistory.schoolyear1 and x1.semester= 1 and x1.merit_flag = 1
+			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 1
 			and (
 				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
 				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
@@ -546,21 +553,11 @@ from
 	left join (
 		select 
 			student.id
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and 
-
-(@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and 
-
-(@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and 
-
-(@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and 
-
-(@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and 
-
-(@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
+			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
+			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
+			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
+			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
+			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
 		from student
 	)shistory on student.id=shistory.id
 	left join sems_moral_score as x1 on student.id=x1.ref_student_id
@@ -573,6 +570,10 @@ where
 		or (x1.school_year=shistory.schoolyear3 and x1.semester= 1)
 		or (x1.school_year=shistory.schoolyear4 and x1.semester= 2)
 		or (x1.school_year=shistory.schoolyear5 and x1.semester= 1)
+	)
+    and ( CAST('0'|| xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@A') as integer) > 0
+		or CAST('0'|| xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@B') as integer) > 0
+		or CAST('0'|| xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@C') as integer) > 0
 	)
 order by 班級,身份證字號,學期";
         #endregion
