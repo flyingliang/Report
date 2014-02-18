@@ -36,16 +36,16 @@ from
 			,x4.cardiorespiratory_degree as ""8下成績""
 			,x5.cardiorespiratory_degree as ""9上成績""
 		from 
-			student 
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear1
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear2
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear3
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear4
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join $ischool_student_fitness as x1 on (''||student.id)=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1
 			left join $ischool_student_fitness as x2 on (''||student.id)=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2
@@ -62,16 +62,16 @@ from
 			,x4.sit_up_degree as ""8下成績""
 			,x5.sit_up_degree as ""9上成績""
 		from 
-			student 
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear1
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear2
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear3
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear4
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join $ischool_student_fitness as x1 on (''||student.id)=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1
 			left join $ischool_student_fitness as x2 on (''||student.id)=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2
@@ -88,16 +88,16 @@ from
 			,x4.standing_long_jump_degree as ""8下成績""
 			,x5.standing_long_jump_degree as ""9上成績""
 		from 
-			student 
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear1
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear2
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear3
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear4
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join $ischool_student_fitness as x1 on (''||student.id)=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1
 			left join $ischool_student_fitness as x2 on (''||student.id)=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2
@@ -114,16 +114,16 @@ from
 			,x4.sit_and_reach_degree as ""8下成績""
 			,x5.sit_and_reach_degree as ""9上成績""
 		from 
-			student 
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear1
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear2
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear3
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear4
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join $ischool_student_fitness as x1 on (''||student.id)=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1
 			left join $ischool_student_fitness as x2 on (''||student.id)=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2
@@ -134,31 +134,30 @@ from
 	UNION ALL
 		select student.id
 			, '幹部任期次數' as ""科目""
-			,''||COUNT(CASE WHEN (x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""7上成績""
-			,''||COUNT(CASE WHEN (x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""7下成績""
-			,''||COUNT(CASE WHEN (x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8上成績""
-			,''||COUNT(CASE WHEN (x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8下成績""
-			,''||COUNT(CASE WHEN (x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""9上成績""
+			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""7上成績""
+			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""7下成績""
+			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8上成績""
+			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8下成績""
+			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""9上成績""
 		from 
-			student
-			left outer join class on student.ref_class_id=class.id
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 1
 			and (
-				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear3 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear4 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear5 and x1.semester= 1)
+				(''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 			)
 		where 
 			student.status = 1 
@@ -169,31 +168,30 @@ from
 		select 
 			student.id
 			,'警告' as ""科目""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""7上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""7下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""8上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""8下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""9上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""7上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""7下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""8上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""8下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""9上成績""
 		from 
-			student
-			left outer join class on student.ref_class_id=class.id
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 0
 			and (
-				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear3 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear4 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear5 and x1.semester= 1)
+				(''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 			)
 		where 
 			student.status = 1 
@@ -203,31 +201,30 @@ from
 		select 
 			student.id
 			,'小過' as ""科目""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""7上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""7下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""8上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""8下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""9上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""7上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""7下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""8上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""8下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""9上成績""
 		from 
-			student
-			left outer join class on student.ref_class_id=class.id
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 0
 			and (
-				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear3 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear4 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear5 and x1.semester= 1)
+				(''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 			)
 		where 
 			student.status = 1 
@@ -237,31 +234,30 @@ from
 		select 
 			student.id
 			,'大過' as ""科目""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""7上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""7下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""8上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""8下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""9上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""7上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""7下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""8上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""8下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""9上成績""
 		from 
-			student
-			left outer join class on student.ref_class_id=class.id
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 0
 			and (
-				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear3 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear4 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear5 and x1.semester= 1)
+				(''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 			)
 		where 
 			student.status = 1 
@@ -271,31 +267,30 @@ from
 		select 
 			student.id
 			,'嘉獎' as ""科目""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""7上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""7下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""8上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""8下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""9上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""7上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""7下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""8上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""8下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""9上成績""
 		from 
-			student
-			left outer join class on student.ref_class_id=class.id
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 1
 			and (
-				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear3 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear4 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear5 and x1.semester= 1)
+				(''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 			)
 		where 
 			student.status = 1 
@@ -305,31 +300,30 @@ from
 		select 
 			student.id
 			,'小功' as ""科目""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""7上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""7下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""8上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""8下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""9上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""7上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""7下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""8上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""8下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""9上成績""
 		from 
-			student
-			left outer join class on student.ref_class_id=class.id
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 1
 			and (
-				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear3 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear4 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear5 and x1.semester= 1)
+				(''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 			)
 		where 
 			student.status = 1 
@@ -339,31 +333,30 @@ from
 		select 
 			student.id
 			,'大功' as ""科目""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""7上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""7下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""8上成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""8下成績""
-			,''||sum(CASE WHEN (x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""9上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""7上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""7下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""8上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""8下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""9上成績""
 		from 
-			student
-			left outer join class on student.ref_class_id=class.id
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
-					,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 1
 			and (
-				(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear3 and x1.semester= 1)
-				or (x1.school_year=shistory.schoolyear4 and x1.semester= 2)
-				or (x1.school_year=shistory.schoolyear5 and x1.semester= 1)
+				(''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
 			)
 		where 
 			student.status = 1 
@@ -372,28 +365,31 @@ from
 	UNION ALL
 		select student.id
 			, '服務學習' as ""科目""
-			,''||sum(x1.hours) as ""7上成績""
-			,''||sum(x2.hours) as ""7下成績""
-			,''||sum(x3.hours) as ""8上成績""
-			,''||sum(x4.hours) as ""8下成績""
-			,''||sum(x5.hours) as ""9上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN x1.hours ELSE 0 END) as ""7上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN x1.hours ELSE 0 END) as ""7下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN x1.hours ELSE 0 END) as ""8上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN x1.hours ELSE 0 END) as ""8下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN x1.hours ELSE 0 END) as ""9上成績""
 		from 
-			student 
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear1
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear2
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear3
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear4
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
-			left join $k12.service.learning.record as x1 on (''||student.id)=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1 and x1.semester= 1
-			left join $k12.service.learning.record as x2 on (''||student.id)=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2 and x2.semester= 2
-			left join $k12.service.learning.record as x3 on (''||student.id)=x3.ref_student_id and (''||x3.school_year)=shistory.schoolyear3 and x3.semester= 1
-			left join $k12.service.learning.record as x4 on (''||student.id)=x4.ref_student_id and (''||x4.school_year)=shistory.schoolyear4 and x4.semester= 2
-			left join $k12.service.learning.record as x5 on (''||student.id)=x5.ref_student_id and (''||x5.school_year)=shistory.schoolyear5 and x5.semester= 1
+			left join $k12.service.learning.record as x1 on (''||student.id)=x1.ref_student_id 
+			and (
+				(''||x1.school_year=shistory.schoolyear1 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1)
+				or (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2)
+				or (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1)
+			)
 		group by student.id
 		--_$_64 =  $k12.service.learning.record
 	UNION ALL
@@ -405,16 +401,16 @@ from
 			,xpath_string('<root>'||x4.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績') as ""8下成績""
 			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績') as ""9上成績""
 		from 
-			student 
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear1
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear2
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear3
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear4
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join sems_subj_score as x1 on student.id=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1 and x1.semester= 1
 			left join sems_subj_score as x2 on student.id=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2 and x2.semester= 2
@@ -430,16 +426,16 @@ from
 			,xpath_string('<root>'||x4.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績') as ""8下成績""
 			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績') as ""9上成績""
 		from 
-			student 
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear1
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear2
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear3
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear4
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join sems_subj_score as x1 on student.id=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1 and x1.semester= 1
 			left join sems_subj_score as x2 on student.id=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2 and x2.semester= 2
@@ -456,16 +452,16 @@ from
 			,xpath_string('<root>'||x4.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""8下成績""
 			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""9上成績""
 		from 
-			student 
+			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
-				select 
-					student.id
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear1
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear2
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear3
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as schoolyear4
-					, xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as schoolyear5
-				from student
+				SELECT student.id
+	, ''||g1.SchoolYear as schoolyear1
+	, ''||g2.SchoolYear as schoolyear2
+	, ''||g3.SchoolYear as schoolyear3
+	, ''||g4.SchoolYear as schoolyear4
+	, ''||g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 			)shistory on student.id=shistory.id
 			left join sems_subj_score as x1 on student.id=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1 and x1.semester= 1
 			left join sems_subj_score as x2 on student.id=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2 and x2.semester= 2
@@ -504,14 +500,14 @@ from
 	student
 	left outer join class on student.ref_class_id=class.id
 	left join (
-		select 
-			student.id
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
-		from student
+		SELECT student.id
+	, g1.SchoolYear as schoolyear1
+	, g2.SchoolYear as schoolyear2
+	, g3.SchoolYear as schoolyear3
+	, g4.SchoolYear as schoolyear4
+	, g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 	)shistory on student.id=shistory.id
 	left join discipline as x1 on student.id=x1.ref_student_id
 where 
@@ -551,14 +547,14 @@ from
 	student
 	left outer join class on student.ref_class_id=class.id
 	left join (
-		select 
-			student.id
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear') as integer) as schoolyear1
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear2
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear3
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear') as integer)  as schoolyear4
-			,CAST('0'|| xpath_string('<root>'|| sems_history ||'</root>','/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear') as integer)  as schoolyear5
-		from student
+		SELECT student.id
+	, g1.SchoolYear as schoolyear1
+	, g2.SchoolYear as schoolyear2
+	, g3.SchoolYear as schoolyear3
+	, g4.SchoolYear as schoolyear4
+	, g5.SchoolYear as schoolyear5
+FROM student
+left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g1 on g1.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''7'' or @GradeYear=''1'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g2 on g2.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g3 on g3.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''8'' or @GradeYear=''2'' ) and (@Semester=''2'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g4 on g4.id=student.id left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id', '''<root>''||sems_history||''</root>''', 'student', '/root/History[ ( @GradeYear=''9'' or @GradeYear=''3'' ) and (@Semester=''1'')]/@SchoolYear', 'id IN ( select student.id from student LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3 )') AS tmp(id int, SchoolYear integer) group by id )as g5 on g5.id=student.id LEFT OUTER JOIN class ON student.ref_class_id = class.id WHERE student.status=1 AND class.grade_year = 3
 	)shistory on student.id=shistory.id
 	left join sems_moral_score as x1 on student.id=x1.ref_student_id
 where 
