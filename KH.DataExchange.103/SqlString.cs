@@ -168,11 +168,11 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 		select 
 			student.id
 			,'警告' as ""科目""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""7上成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""7下成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""8上成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""8下成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@C') as integer) ELSE 0 END) as ""9上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@C') as integer) ELSE 0 END) as ""7上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@C') as integer) ELSE 0 END) as ""7下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@C') as integer) ELSE 0 END) as ""8上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@C') as integer) ELSE 0 END) as ""8下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@C') as integer) ELSE 0 END) as ""9上成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -201,11 +201,11 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 		select 
 			student.id
 			,'小過' as ""科目""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""7上成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""7下成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""8上成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""8下成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@B') as integer) ELSE 0 END) as ""9上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@B') as integer) ELSE 0 END) as ""7上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@B') as integer) ELSE 0 END) as ""7下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@B') as integer) ELSE 0 END) as ""8上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@B') as integer) ELSE 0 END) as ""8下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@B') as integer) ELSE 0 END) as ""9上成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -234,11 +234,11 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 		select 
 			student.id
 			,'大過' as ""科目""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""7上成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""7下成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""8上成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""8下成績""
-			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit/@A') as integer) ELSE 0 END) as ""9上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear1 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@A') as integer) ELSE 0 END) as ""7上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear2 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@A') as integer) ELSE 0 END) as ""7下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@A') as integer) ELSE 0 END) as ""8上成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@A') as integer) ELSE 0 END) as ""8下成績""
+			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@A') as integer) ELSE 0 END) as ""9上成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -541,7 +541,7 @@ select (
 	,CAST('0'|| xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@A') as integer) as ""大功""
 	,CAST('0'|| xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@B') as integer) as ""小功""
 	,CAST('0'|| xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@C') as integer) as ""嘉獎""
-	,'非明細' as ""事由類別""
+	,'' as ""事由類別""
 	,'' as ""事由""
 from
 	student
