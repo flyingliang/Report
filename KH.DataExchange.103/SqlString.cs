@@ -17,13 +17,16 @@ namespace KH.DataExchange._103
 	)as ""國中學校代碼""
 	, class.class_name as ""班級""
 	, student.id_number as ""身份證字號""
+    ,'' as ""國一入學年度""
 	,'1' as ""是否就讀滿一學年""
+    ,'' as ""資賦優異""
 	,s1.""科目""
 	,s1.""7上成績""
 	,s1.""7下成績""
 	,s1.""8上成績""
 	,s1.""8下成績""
 	,s1.""9上成績""
+    ,s1.""9下成績""
 from 
 	student
 	left outer join class on student.ref_class_id=class.id
@@ -35,6 +38,7 @@ from
 			,x3.cardiorespiratory_degree as ""8上成績""
 			,x4.cardiorespiratory_degree as ""8下成績""
 			,x5.cardiorespiratory_degree as ""9上成績""
+            ,x5.cardiorespiratory_degree as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -61,6 +65,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,x3.sit_up_degree as ""8上成績""
 			,x4.sit_up_degree as ""8下成績""
 			,x5.sit_up_degree as ""9上成績""
+            ,x5.sit_up_degree as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -87,6 +92,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,x3.standing_long_jump_degree as ""8上成績""
 			,x4.standing_long_jump_degree as ""8下成績""
 			,x5.standing_long_jump_degree as ""9上成績""
+            ,x5.standing_long_jump_degree as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -113,6 +119,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,x3.sit_and_reach_degree as ""8上成績""
 			,x4.sit_and_reach_degree as ""8下成績""
 			,x5.sit_and_reach_degree as ""9上成績""
+            ,x5.sit_and_reach_degree as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -139,6 +146,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8上成績""
 			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""8下成績""
 			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -173,6 +181,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@C') as integer) ELSE 0 END) as ""8上成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@C') as integer) ELSE 0 END) as ""8下成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@C') as integer) ELSE 0 END) as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -206,6 +215,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@B') as integer) ELSE 0 END) as ""8上成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@B') as integer) ELSE 0 END) as ""8下成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@B') as integer) ELSE 0 END) as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -239,6 +249,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@A') as integer) ELSE 0 END) as ""8上成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@A') as integer) ELSE 0 END) as ""8下成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Demerit[not(@ Cleared=""是"")]/@A') as integer) ELSE 0 END) as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -272,6 +283,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""8上成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""8下成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@C') as integer) ELSE 0 END) as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -305,6 +317,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""8上成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""8下成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@B') as integer) ELSE 0 END) as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -338,6 +351,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""8上成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""8下成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CAST('0'|| xpath_string(x1.detail,'/Discipline/Merit/@A') as integer) ELSE 0 END) as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -370,6 +384,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear3 and x1.semester= 1) THEN x1.hours ELSE 0 END) as ""8上成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear4 and x1.semester= 2) THEN x1.hours ELSE 0 END) as ""8下成績""
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN x1.hours ELSE 0 END) as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -400,6 +415,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,xpath_string('<root>'||x3.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績') as ""8上成績""
 			,xpath_string('<root>'||x4.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績') as ""8下成績""
 			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績') as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -425,6 +441,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,xpath_string('<root>'||x3.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績') as ""8上成績""
 			,xpath_string('<root>'||x4.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績') as ""8下成績""
 			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績') as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (
@@ -451,6 +468,7 @@ left outer join (SELECT id, max(SchoolYear) as SchoolYear FROM xpath_table( 'id'
 			,xpath_string('<root>'||x3.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""8上成績""
 			,xpath_string('<root>'||x4.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""8下成績""
 			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""9上成績""
+            ,'' as ""9下成績""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (

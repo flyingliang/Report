@@ -49,9 +49,12 @@ namespace KH.DataExchange._103
                     dt_source = _Q.Select(SqlString.MultivariateScore);
                     List<UpdateRecordRecord> urrl = K12.Data.UpdateRecord.SelectByStudentIDs(sids);
                     Dictionary<string, SemesterHistoryRecord> shrl = K12.Data.SemesterHistory.SelectByStudentIDs(sids).ToDictionary(x => x.RefStudentID, x => x);
+                    Dictionary<string, string> dsIdnumber = new Dictionary<string, string>();
                     Dictionary<string, int> dsHas1year = new Dictionary<string, int>();
                     foreach (UpdateRecordRecord urr in urrl)
                     {
+                        if (!dsIdnumber.ContainsKey(urr.Student.IDNumber))
+                            dsIdnumber.Add(urr.Student.IDNumber, urr.StudentID);
                         if (!dsHas1year.ContainsKey(urr.Student.IDNumber))
                             dsHas1year.Add(urr.Student.IDNumber, 1);//預設為1
                         if (urr.UpdateCode == "3") //轉入
@@ -75,8 +78,9 @@ namespace KH.DataExchange._103
                     DataTable dt_tmp = dt_source.Clone();
                     foreach (DataRow row in dt_source.Rows)
                     {
-                        row[3] = dsHas1year.ContainsKey("" + row[2]) ? "" + dsHas1year["" + row[2]] : "unknow";
-                        if (l[index] != "" + row[4]) //只取最後一筆(最新) , sql的left join已保證至少有一筆
+                        row[4] = dsHas1year.ContainsKey("" + row[2]) ? "" + dsHas1year["" + row[2]] : "unknow";
+                        row[3] = dsIdnumber.ContainsKey("" + row[2]) ? "" + shrl[dsIdnumber[""+row[2]]].SemesterHistoryItems[0].SchoolYear : "unknow";
+                        if (l[index] != "" + row[6]) //只取最後一筆(最新) , sql的left join已保證至少有一筆
                         {
                             dt_tmp.Rows.RemoveAt(dt_tmp.Rows.Count - 1);
                             dt_tmp.ImportRow(row);
