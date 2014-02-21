@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.key = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StudentTag = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnExit = new DevComponents.DotNetBar.ButtonX();
             this.buttonX1 = new DevComponents.DotNetBar.ButtonX();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.comboBoxEx1 = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.key = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StudentTag = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,29 +52,10 @@
             this.dataGridView1.GridColor = System.Drawing.Color.White;
             this.dataGridView1.Location = new System.Drawing.Point(12, 13);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(646, 244);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // key
-            // 
-            this.key.HeaderText = "類型";
-            this.key.Name = "key";
-            this.key.ReadOnly = true;
-            // 
-            // StudentTag
-            // 
-            this.StudentTag.HeaderText = "學生類別";
-            this.StudentTag.Name = "StudentTag";
-            this.StudentTag.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.StudentTag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.StudentTag.Width = 350;
-            // 
-            // note
-            // 
-            this.note.HeaderText = "備註";
-            this.note.Name = "note";
-            this.note.Width = 90;
             // 
             // btnExit
             // 
@@ -128,6 +109,27 @@
             this.comboBoxEx1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.comboBoxEx1.TabIndex = 35;
             // 
+            // key
+            // 
+            this.key.HeaderText = "類型";
+            this.key.Name = "key";
+            this.key.ReadOnly = true;
+            this.key.Width = 200;
+            // 
+            // StudentTag
+            // 
+            this.StudentTag.HeaderText = "學生類別";
+            this.StudentTag.Name = "StudentTag";
+            this.StudentTag.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.StudentTag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.StudentTag.Width = 340;
+            // 
+            // note
+            // 
+            this.note.HeaderText = "備註";
+            this.note.Name = "note";
+            this.note.Width = 60;
+            // 
             // Map
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -151,10 +153,10 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private DevComponents.DotNetBar.ButtonX btnExit;
         private DevComponents.DotNetBar.ButtonX buttonX1;
+        private DevComponents.DotNetBar.LabelX labelX1;
+        private DevComponents.DotNetBar.Controls.ComboBoxEx comboBoxEx1;
         private System.Windows.Forms.DataGridViewTextBoxColumn key;
         private System.Windows.Forms.DataGridViewComboBoxColumn StudentTag;
         private System.Windows.Forms.DataGridViewTextBoxColumn note;
-        private DevComponents.DotNetBar.LabelX labelX1;
-        private DevComponents.DotNetBar.Controls.ComboBoxEx comboBoxEx1;
     }
 }

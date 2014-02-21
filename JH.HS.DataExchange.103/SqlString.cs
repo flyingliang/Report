@@ -25,9 +25,9 @@ left outer join class on student.ref_class_id=class.id
 left outer join 
 (
 select student.id
-			,avg(cast(xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績') as float)) as ""健康與體育""
-			,avg(cast(xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as float)) as ""藝術與人文""
-			,avg(cast(xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績') as float)) as ""綜合活動""
+			,avg(cast('0'||xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績') as float)) as ""健康與體育""
+			,avg(cast('0'||xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as float)) as ""藝術與人文""
+			,avg(cast('0'||xpath_string('<root>'||x1.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績') as float)) as ""綜合活動""
 		from 
 			student join class on student.ref_class_id=class.id and class.grade_year = 3
 			left join (

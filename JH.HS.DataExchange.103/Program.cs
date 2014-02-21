@@ -246,8 +246,8 @@ namespace JH.HS.DataExchange._103
 
                         row["資料授權"] = "";//22
                         row["家長姓名"] = csr.CustodianName;//23
-                        row["市內電話"] = csr.ContactPhone;//24
-                        row["行動電話"] = csr.SMSPhone;//25
+                        row["市內電話"] = csr.ContactPhone.Replace("(", "").Replace(")", "").Replace("-", "");//24
+                        row["行動電話"] = csr.SMSPhone.Replace("(", "").Replace(")", "").Replace("-", "");//25
                         row["郵遞區號"] = csr.MallingAddressZipCode;//26
                         row["通訊地址"] = csr.MallingAddress.Replace("[]","");//27
                         row["原住民是否含母語認證"] = "";//28
