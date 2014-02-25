@@ -261,7 +261,7 @@ namespace JH.HS.DataExchange._103
                         row["國三下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "31") || dSGsA.ContainsKey(csr.ID + delimiter + "92") ? "有記錄" : "無記錄";//38
                         if (dSGrade.ContainsKey(csr.ID))
                         {
-                            row["健康與體育"] = dSGrade[csr.ID][1];//>= 60  ? "達標準":"未達標準" ;//32
+                            row["健康與體育"] = dSGrade[csr.ID][1];//32
                             row["藝術與人文"] = dSGrade[csr.ID][2];//33
                             row["綜合活動"] = dSGrade[csr.ID][3];//34
                             row["大功支數"] = dSGrade[csr.ID][4];//39
