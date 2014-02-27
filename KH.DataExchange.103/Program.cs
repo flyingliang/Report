@@ -19,7 +19,12 @@ namespace KH.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
+            FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
+            cat.Add(new FISCA.Permission.RibbonFeature("90B751EE-8ADD-4AE8-A09F-1732D2DD9D8B", "高雄區免試入學資料轉檔"));
+
+
             var button = FISCA.Presentation.MotherForm.RibbonBarItems["教務作業", "十二年國教"]["高雄區免試入學資料轉檔"];
+            button.Enable = FISCA.Permission.UserAcl.Current["90B751EE-8ADD-4AE8-A09F-1732D2DD9D8B"].Executable;
             Exception error = null;
             System.ComponentModel.BackgroundWorker bkw = new System.ComponentModel.BackgroundWorker();
             bkw.WorkerReportsProgress = true;
@@ -30,6 +35,7 @@ namespace KH.DataExchange._103
             };
             bkw.RunWorkerCompleted += delegate
             {
+                button.Enable = FISCA.Permission.UserAcl.Current["90B751EE-8ADD-4AE8-A09F-1732D2DD9D8B"].Executable;
                 if (error != null) throw new Exception("103高雄區免試入學資料轉檔產生失敗", error);
             };
             bkw.DoWork += delegate
@@ -59,7 +65,7 @@ namespace KH.DataExchange._103
                             dsSchoolyear.Add(urr.Student.IDNumber, "");//預設為""
                         if (urr.UpdateCode == "1")
                         {
-                            dsSchoolyear[urr.Student.IDNumber] = ""+urr.SchoolYear;
+                            dsSchoolyear[urr.Student.IDNumber] = "" + urr.SchoolYear;
                         }
                         else if (urr.UpdateCode == "3") //轉入
                         {
@@ -71,29 +77,73 @@ namespace KH.DataExchange._103
                             }
                             if (urrGrade == 3 || urrGrade == 9)
                                 dsHas1year[urr.Student.IDNumber] = 0;
-                            else if (urrGrade == 0)
-                                ;
+                            //else if (urrGrade == 0)
+                            //    ;
                         }
                     }
+                    List<string> verysmart = new List<string>();
+                    foreach (var item in K12.Data.StudentTag.SelectByStudentIDs(sids))
+                    {
+                        if (item.Name == "資賦優異縮短修業年限學生")
+                            verysmart.Add(item.Student.IDNumber);
+                    }
+
                     bkw.ReportProgress(60);
                     List<string> l = new List<string> { "藝術與人文", "健康與體育", "綜合活動", "服務學習", "大功", "小功", "嘉獎", "大過", "小過", "警告", "幹部任期次數", "坐姿體前彎", "立定跳遠", "仰臥起坐", "心肺適能" };
+                    Dictionary<string, Dictionary<string, DataRow>> rowMapping = new Dictionary<string, Dictionary<string, DataRow>>();
                     int index = 0;
                     List<DataRow> deletedRows = new List<DataRow>();
                     DataTable dt_tmp = dt_source.Clone();
+                    List<string> needFix = new List<string>();
                     foreach (DataRow row in dt_source.Rows)
                     {
-                        row[4] = dsHas1year.ContainsKey("" + row[2]) ? "" + dsHas1year["" + row[2]] : "";
-                        row[3] = dsSchoolyear.ContainsKey("" + row[2]) ? "" + dsSchoolyear["" + row[2]] : "";
-                        if (l[index] != "" + row[6]) //只取最後一筆(最新) , sql的left join已保證至少有一筆
+                        row[3] = (dsSchoolyear.ContainsKey("" + row[2])) ? "" + dsSchoolyear["" + row[2]] : "";
+                        if (row[3] == "" && !needFix.Contains("" + row[2]))
                         {
-                            dt_tmp.Rows.RemoveAt(dt_tmp.Rows.Count - 1);
-                            dt_tmp.ImportRow(row);
-                            continue;
+                            needFix.Add("" + row[2]);
                         }
-                        dt_tmp.ImportRow(row);
-                        index++;
-                        if (index >= l.Count)
-                            index = 0;
+                        row[4] = dsHas1year.ContainsKey("" + row[2]) ? "" + dsHas1year["" + row[2]] : "";
+                        if (verysmart.Contains("" + row[2]))
+                            row[5] = 1;
+
+                        if (!rowMapping.ContainsKey("" + row[2]))
+                        {
+                            rowMapping.Add("" + row[2], new Dictionary<string, DataRow>());
+                        }
+                        if (!rowMapping["" + row[2]].ContainsKey("" + row[6]))
+                            rowMapping["" + row[2]].Add("" + row[6], row);
+                        //if (l[index] != "" + row[6]) //只取最後一筆(最新) , sql的left join已保證至少有一筆
+                        //{
+                        //    dt_tmp.Rows.RemoveAt(dt_tmp.Rows.Count - 1);
+                        //    dt_tmp.ImportRow(row);
+                        //    continue;
+                        //}
+                        //dt_tmp.ImportRow(row);
+                        //index++;
+                        //if (index >= l.Count)
+                        //    index = 0;
+                    }
+                    foreach (var ssn in needFix)
+                    {
+                        foreach (var key in l)
+                        {
+                            var row = rowMapping[ssn][key];
+                            dt_tmp.ImportRow(row);
+                        }
+                    }
+                    foreach (var ssn in rowMapping.Keys)
+                    {
+                        if (!needFix.Contains(ssn))
+                        {
+                            foreach (var key in l)
+                            {
+                                var row = rowMapping[ssn][key];
+                                row[13] = "";
+                                row[14] = "";
+                                row[15] = "";
+                                dt_tmp.ImportRow(row);
+                            }
+                        }
                     }
                     bkw.ReportProgress(80);
                     CompletedXls("103高雄區多元成績交換資料格式", dt_tmp, new Workbook());
@@ -108,7 +158,11 @@ namespace KH.DataExchange._103
             };
             button.Click += delegate
             {
-                bkw.RunWorkerAsync();
+                if (!bkw.IsBusy)
+                {
+                    button.Enable = false;
+                    bkw.RunWorkerAsync();
+                }
             };
         }
         public static void CompletedXls(string inputReportName, DataTable dt, Workbook inputXls)
