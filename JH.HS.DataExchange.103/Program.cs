@@ -37,7 +37,7 @@ namespace JH.HS.DataExchange._103
             {
                 try
                 {
-                    string conf_AbsenceType = (string)e.Argument;
+                    //string conf_AbsenceType = (string)e.Argument;
                     bkw.ReportProgress(1);
                     QueryHelper _Q = new QueryHelper();
                     AccessHelper _A = new AccessHelper();
@@ -65,6 +65,7 @@ namespace JH.HS.DataExchange._103
                         csrl.Add(new custStudentRecord(row));
                     }
                     Dictionary<string, SemesterHistoryRecord> dSShr = K12.Data.SemesterHistory.SelectByStudentIDs(sids).ToDictionary(x => x.RefStudentID, x => x);
+                    List<AbsenceMapRecord> amrl = _A.Select<AbsenceMapRecord>();
                     Dictionary<string, int> dSGsA = new Dictionary<string, int>();
                     string delimiter = "^^^";
                     #region 檢查有無曠課記錄//36~39
@@ -77,26 +78,30 @@ namespace JH.HS.DataExchange._103
                             if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
                                 arGrade = item.GradeYear;
                         }
+                       
                         #endregion
                         foreach (AttendancePeriod ap in ar.PeriodDetail)
                         {
-                            if (ap.AbsenceType == conf_AbsenceType)
-                            {
-                                switch (arGrade + "" + ar.Semester)
+                            foreach (AbsenceMapRecord amr in amrl)
+	                        {
+                                if (amr.absence == ap.AbsenceType && amr.period == ap.Period)
                                 {
-                                    case "21":
-                                    case "81":
-                                    case "22":
-                                    case "82":
-                                    case "31":
-                                    case "91":
-                                    case "32":
-                                    case "92":
-                                        if (!dSGsA.ContainsKey(ar.RefStudentID + delimiter + arGrade + ar.Semester))
-                                            dSGsA.Add(ar.RefStudentID + delimiter + arGrade + ar.Semester, 1);
-                                        break;
+                                    switch (arGrade + "" + ar.Semester)
+                                    {
+                                        case "21":
+                                        case "81":
+                                        case "22":
+                                        case "82":
+                                        case "31":
+                                        case "91":
+                                        case "32":
+                                        case "92":
+                                            if (!dSGsA.ContainsKey(ar.RefStudentID + delimiter + arGrade + ar.Semester))
+                                                dSGsA.Add(ar.RefStudentID + delimiter + arGrade + ar.Semester, 1);
+                                            break;
+                                    }
                                 }
-                            }
+	                        }
                         }
                     }
                     #endregion
@@ -222,7 +227,7 @@ namespace JH.HS.DataExchange._103
                         row["學生身分"] = strtmp;
                         strtmp = "";
                         foreach (KeyValuePair<string, int> item in new Dictionary<string, int>(){
-                                                                {"非身心障礙考生",0},
+                                                                //{"非身心障礙考生",0},
                                                                 {"智能障礙",1},
                                                                 {"視覺障礙",2},
                                                                 {"聽覺障礙",3},
@@ -237,7 +242,7 @@ namespace JH.HS.DataExchange._103
                                 //row["身心障礙"] = ("" + row["身心障礙"]) + item.Value;//17
                                 strtmp += item.Value;
                         }
-                        row["身心障礙"] = strtmp;
+                        row["身心障礙"] = string.IsNullOrEmpty(strtmp) ? "0" : strtmp;
 
                         row["就學區"] = "";//18
                         row["低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "低收入戶") ? "1" : "";//19
@@ -246,10 +251,10 @@ namespace JH.HS.DataExchange._103
 
                         row["資料授權"] = "";//22
                         row["家長姓名"] = csr.CustodianName;//23
-                        row["市內電話"] = csr.ContactPhone.Replace("(", "").Replace(")", "").Replace("-", "");//24
-                        row["行動電話"] = csr.SMSPhone.Replace("(", "").Replace(")", "").Replace("-", "");//25
+                        row["市內電話"] = csr.ContactPhone != null ? csr.ContactPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//24
+                        row["行動電話"] = csr.SMSPhone != null ? csr.SMSPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//25
                         row["郵遞區號"] = csr.MallingAddressZipCode;//26
-                        row["通訊地址"] = csr.MallingAddress.Replace("[]","");//27
+                        row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[]", "") : "";//27
                         row["原住民是否含母語認證"] = "";//28
                         row["密碼"] = "";//29
                         row["扶助弱勢"] = "";//30
@@ -289,9 +294,8 @@ namespace JH.HS.DataExchange._103
             };
             button.Click += delegate
             {
-                Map form = new Map();
-                if ( form.ShowDialog() == DialogResult.OK )
-                    bkw.RunWorkerAsync(form.AbsenceType);
+                if (  new Map().ShowDialog() == DialogResult.OK )
+                    bkw.RunWorkerAsync();
             };
         }
         public static void CompletedXls(string inputReportName, DataTable dt, Workbook inputXls)

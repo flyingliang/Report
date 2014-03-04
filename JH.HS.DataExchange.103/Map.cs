@@ -17,7 +17,7 @@ namespace JH.HS.DataExchange._103
 
         private FISCA.UDT.AccessHelper _AccessHelper = new FISCA.UDT.AccessHelper();
         private List<MapRecord> _MapRecords = new List<MapRecord>();
-        public static List<string> SpecialList = new List<string>(){"一般生", "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "非身心障礙考生", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "身體病弱", "情緒行為障礙", "學習障礙", "多重障礙A/自閉症B/其他障礙", "低收入戶", "中低收入戶", "失業勞工子女" } ;
+        public static List<string> SpecialList = new List<string>(){"一般生", "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "身體病弱", "情緒行為障礙", "學習障礙", "多重障礙A/自閉症B/其他障礙", "低收入戶", "中低收入戶", "失業勞工子女" } ;
         public string AbsenceType = "";
         public Map()
         {
@@ -59,11 +59,6 @@ namespace JH.HS.DataExchange._103
                 dataGridView1.Rows.Add(row);
             }
             List<K12.Data.AbsenceMappingInfo> infoList = K12.Data.AbsenceMapping.SelectAll();
-            foreach (K12.Data.AbsenceMappingInfo item in infoList)
-            {
-                comboBoxEx1.Items.Add(item.Name);
-            }
-            comboBoxEx1.SelectedIndex = 0;
         }
         private void btnExit_Click(object sender, EventArgs e)
         {
@@ -75,21 +70,25 @@ namespace JH.HS.DataExchange._103
             _MapRecords.Clear();
             MapRecord mr;
             for (int i = 0; i < SpecialList.Count; i++)
-			{
-			    DataGridViewRow row = dataGridView1.Rows[i];
-                if (""+row.Cells[0].Value == SpecialList[i] )
+            {
+                DataGridViewRow row = dataGridView1.Rows[i];
+                if ("" + row.Cells[0].Value == SpecialList[i])
                 {
-                     mr = new MapRecord();
+                    mr = new MapRecord();
                     mr.key = SpecialList[i];
-                    mr.value = ""+row.Cells["StudentTag"].Value;
-                    mr.note = ""+row.Cells["note"].Value;
-                     _MapRecords.Add(mr);
+                    mr.value = "" + row.Cells["StudentTag"].Value;
+                    mr.note = "" + row.Cells["note"].Value;
+                    _MapRecords.Add(mr);
                 }
-			}
+            }
             _MapRecords.SaveAll();
-            this.AbsenceType = comboBoxEx1.Text;
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            new AbsenceMap().ShowDialog();
         }
     }
 }
