@@ -306,7 +306,7 @@ namespace JH.HS.DataExchange._103
                         row["國二上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "21") || dSGsA.ContainsKey(csr.ID + delimiter + "81") ? "有記錄" : "無記錄";//35
                         row["國二下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "22") || dSGsA.ContainsKey(csr.ID + delimiter + "82") ? "有記錄" : "無記錄";//36
                         row["國三上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "31") || dSGsA.ContainsKey(csr.ID + delimiter + "91") ? "有記錄" : "無記錄";//37
-                        row["國三下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "31") || dSGsA.ContainsKey(csr.ID + delimiter + "92") ? "有記錄" : "無記錄";//38
+                        row["國三下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "32") || dSGsA.ContainsKey(csr.ID + delimiter + "92") ? "有記錄" : "無記錄";//38
                         if (dSGrade.ContainsKey(csr.ID))
                         {
                             row["健康與體育"] = dSGrade[csr.ID][1];//32
