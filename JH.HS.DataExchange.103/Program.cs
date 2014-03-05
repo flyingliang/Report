@@ -22,8 +22,10 @@ namespace JH.HS.DataExchange._103
         {
             string ReportName = "103(竹苗區會考)學生匯入資料";
             string UUID = "0B19567E-AAD5-4E0E-9AB0-1C9AE21612AC";
+
             FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
             cat.Add(new FISCA.Permission.RibbonFeature(UUID, ReportName));
+
             var button = FISCA.Presentation.MotherForm.RibbonBarItems["教務作業", "十二年國教"][ReportName];
             Exception error = null;
             System.ComponentModel.BackgroundWorker bkw = new System.ComponentModel.BackgroundWorker();
@@ -55,7 +57,8 @@ namespace JH.HS.DataExchange._103
                         sids.Add("" + row[0]);
                     }
                     bkw.ReportProgress(20);
-                    List<AttendanceRecord> arl = K12.Data.Attendance.SelectByStudentIDs(sids);
+                    //List<AttendanceRecord> arl = K12.Data.Attendance.SelectByStudentIDs(sids);
+                    var arl2 = K12.BusinessLogic.AutoSummary.Select(sids, null);
                     List<custStudentRecord> csrl = new List<custStudentRecord>();
                     tmp = _Q.Select("SELECT student.*," +
                                         "class.class_name ,class.grade_year AS class_grade_year,class.ref_dept_id AS class_ref_dept_id," +
@@ -74,7 +77,7 @@ namespace JH.HS.DataExchange._103
                     string delimiter = "^^^";
                     #region 檢查有無曠課記錄//36~39
                     Dictionary<string, PeriodMappingInfo> dPmi = K12.Data.PeriodMapping.SelectAll().ToDictionary(x => x.Name, x => x);
-                    foreach (AttendanceRecord ar in arl)
+                    foreach (var ar in arl2)
                     {
                         int arGrade = 0;
                         #region match GradeYear
@@ -85,11 +88,11 @@ namespace JH.HS.DataExchange._103
                         }
 
                         #endregion
-                        foreach (AttendancePeriod ap in ar.PeriodDetail)
-                        {
+                        foreach (var ap in ar.AbsenceCounts)
+                        {//ap.Name
                             foreach (AbsenceMapRecord amr in amrl)
                             {
-                                if (amr.absence == ap.AbsenceType && dPmi.ContainsKey(ap.Period) && amr.period_type == dPmi[ap.Period].Type)
+                                if (amr.absence == ap.Name && amr.period_type == ap.PeriodType)
                                 {
                                     switch (arGrade + "" + ar.Semester)
                                     {
@@ -109,6 +112,41 @@ namespace JH.HS.DataExchange._103
                             }
                         }
                     }
+                    //foreach (AttendanceRecord ar in arl)
+                    //{
+                    //    int arGrade = 0;
+                    //    #region match GradeYear
+                    //    foreach (SemesterHistoryItem item in dSShr[ar.Student.ID].SemesterHistoryItems)//match schoolYear
+                    //    {
+                    //        if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
+                    //            arGrade = item.GradeYear;
+                    //    }
+
+                    //    #endregion
+                    //    foreach (AttendancePeriod ap in ar.PeriodDetail)
+                    //    {
+                    //        foreach (AbsenceMapRecord amr in amrl)
+                    //        {
+                    //            if (amr.absence == ap.AbsenceType && dPmi.ContainsKey(ap.Period) && amr.period_type == dPmi[ap.Period].Type)
+                    //            {
+                    //                switch (arGrade + "" + ar.Semester)
+                    //                {
+                    //                    case "21":
+                    //                    case "81":
+                    //                    case "22":
+                    //                    case "82":
+                    //                    case "31":
+                    //                    case "91":
+                    //                    case "32":
+                    //                    case "92":
+                    //                        if (!dSGsA.ContainsKey(ar.RefStudentID + delimiter + arGrade + ar.Semester))
+                    //                            dSGsA.Add(ar.RefStudentID + delimiter + arGrade + ar.Semester, 1);
+                    //                        break;
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //}
                     #endregion
                     #region 在Sql中處理的:健康與體育,藝術與人文,綜合活動,大功支數,小功支數,嘉獎支數,大過支數,小過支數,警告支數,服務學習時數_八上,服務學習時數_八下,服務學習時數_九上
                     tmp = _Q.Select(SqlString.Query1);
