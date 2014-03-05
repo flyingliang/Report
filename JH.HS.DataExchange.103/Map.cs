@@ -17,7 +17,7 @@ namespace JH.HS.DataExchange._103
 
         private FISCA.UDT.AccessHelper _AccessHelper = new FISCA.UDT.AccessHelper();
         private List<MapRecord> _MapRecords = new List<MapRecord>();
-        public static List<string> SpecialList = new List<string>(){"一般生", "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "身體病弱", "情緒行為障礙", "學習障礙", "多重障礙A/自閉症B/其他障礙", "低收入戶", "中低收入戶", "失業勞工子女" } ;
+        public static List<string> SpecialList = new List<string>() { "原住民", "派外人員子女", "蒙藏生", "回國僑生", "港澳生", "退伍軍人", "境外優秀科學技術人才子女", "智能障礙", "視覺障礙", "聽覺障礙", "語言障礙", "肢體障礙", "身體病弱", "情緒行為障礙", "學習障礙", "多重障礙A/自閉症B/其他障礙", "低收入戶", "中低收入戶", "失業勞工子女", "原住民是否含母語認證", "就近入學" };
         public string AbsenceType = "";
         public Map()
         {
@@ -35,9 +35,9 @@ namespace JH.HS.DataExchange._103
                 else
                     StudentTag.Items.Add(item.Name);
             }
-            _MapRecords =  _AccessHelper.Select<MapRecord>();
-            DataGridViewRow row ;
-            int index ;
+            _MapRecords = _AccessHelper.Select<MapRecord>();
+            DataGridViewRow row;
+            int index;
             foreach (string key in SpecialList)
             {
                 index = 1;
@@ -46,14 +46,14 @@ namespace JH.HS.DataExchange._103
                 row.Cells[0].Value = key;
                 foreach (MapRecord item in _MapRecords)
                 {
-                    if (key == item.key )
+                    if (key == item.key)
                     {
-                        if ( index == 1 )
+                        if (index == 1)
                         {
-                        row.Cells[1].Value = item.value;
-                        row.Cells[2].Value = item.note;
+                            row.Cells[1].Value = item.value;
+                            row.Cells[2].Value = item.note;
                         }
-                        index ++;
+                        index++;
                     }
                 }
                 dataGridView1.Rows.Add(row);

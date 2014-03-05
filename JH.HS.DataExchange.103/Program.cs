@@ -66,7 +66,8 @@ namespace JH.HS.DataExchange._103
                                     "FROM student " +
                                     "LEFT JOIN class ON student.ref_class_id = class.id " +
                                     "LEFT JOIN dept ON dept.id = class.ref_dept_id " +
-                                    "WHERE student.id IN (" + string.Join(",", sids) + ")");
+                                    "WHERE student.id IN (" + string.Join(",", sids) + ")" +
+                                    "ORDER BY class.display_order, class.class_name, seat_no");
                     foreach (DataRow row in tmp.Rows)
                     {
                         csrl.Add(new custStudentRecord(row));
@@ -254,7 +255,7 @@ namespace JH.HS.DataExchange._103
                         row["畢肄業"] = "";//15
                         string strtmp = "";
                         foreach (KeyValuePair<string, int> item in new Dictionary<string, int>(){
-                                                                {"一般生",0},
+                                                                //{"一般生",0},
                                                                 {"原住民",1},
                                                                 {"派外人員子女",2},
                                                                 {"蒙藏生",3},
@@ -264,10 +265,12 @@ namespace JH.HS.DataExchange._103
                                                                 {"境外優秀科學技術人才子女",7}})
                         {
                             if (ddSMaps.ContainsKey(csr.ID + delimiter + item.Key))
-                                //row["學生身分"] = ("" + row["身心障礙"]) + item.Value;//16
+                            {    //row["學生身分"] = ("" + row["身心障礙"]) + item.Value;//16
                                 strtmp += item.Value;
+                                break;
+                            }
                         }
-                        row["學生身分"] = strtmp;
+                        row["學生身分"] = (strtmp == "" ? "0" : strtmp);
                         strtmp = "";
                         foreach (KeyValuePair<string, int> item in new Dictionary<string, int>(){
                                                                 //{"非身心障礙考生",0},
@@ -298,10 +301,10 @@ namespace JH.HS.DataExchange._103
                         row["行動電話"] = csr.SMSPhone != null ? csr.SMSPhone.Replace("(", "").Replace(")", "").Replace("-", "") : "";//25
                         row["郵遞區號"] = csr.MallingAddressZipCode;//26
                         row["通訊地址"] = csr.MallingAddress != null ? csr.MallingAddress.Replace("[]", "") : "";//27
-                        row["原住民是否含母語認證"] = "";//28
+                        row["原住民是否含母語認證"] = (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民")) ? (ddSMaps.ContainsKey(csr.ID + delimiter + "原住民是否含母語認證") ? "1" : "0") : null;//28
                         row["密碼"] = "";//29
-                        row["扶助弱勢"] = "";//30
-                        row["就近入學"] = "";//31
+                        row["扶助弱勢"] = null;//30
+                        row["就近入學"] = ddSMaps.ContainsKey(csr.ID + delimiter + "就近入學") ? "符合" : "不符合";//31
 
                         row["國二上曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "21") || dSGsA.ContainsKey(csr.ID + delimiter + "81") ? "有記錄" : "無記錄";//35
                         row["國二下曠課紀錄"] = dSGsA.ContainsKey(csr.ID + delimiter + "22") || dSGsA.ContainsKey(csr.ID + delimiter + "82") ? "有記錄" : "無記錄";//36
