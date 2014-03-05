@@ -13,17 +13,18 @@ namespace JH.HS.DataExchange._103
     public partial class AbsenceMap : BaseForm
     {
         private FISCA.UDT.AccessHelper _AccessHelper = new FISCA.UDT.AccessHelper();
-        List<K12.Data.AbsenceMappingInfo> infoList;
-        List<K12.Data.PeriodMappingInfo> infoList2 ;
+        List<K12.Data.AbsenceMappingInfo> amil;
+        List<K12.Data.PeriodMappingInfo> pmil ;
         private List<AbsenceMapRecord> _MapRecords = new List<AbsenceMapRecord>();
+        List<string> period_types;
         public AbsenceMap()
         {
             InitializeComponent();
-            infoList= K12.Data.AbsenceMapping.SelectAll();
-            infoList2 = K12.Data.PeriodMapping.SelectAll();
+            amil = K12.Data.AbsenceMapping.SelectAll();
+            pmil = K12.Data.PeriodMapping.SelectAll();
             _MapRecords = _AccessHelper.Select<AbsenceMapRecord>();
             DataGridViewColumn dgvc ;
-            foreach (K12.Data.AbsenceMappingInfo each in infoList)
+            foreach (K12.Data.AbsenceMappingInfo each in amil)
             {
                 dgvc  = new DataGridViewCheckBoxColumn();
                 dgvc.Width = 40;
@@ -31,17 +32,23 @@ namespace JH.HS.DataExchange._103
                 dataGridView1.Columns.Add(dgvc); 
             }
             DataGridViewRow row;
-            foreach (K12.Data.PeriodMappingInfo each in infoList2)
+            period_types = new List<string>();
+            foreach (K12.Data.PeriodMappingInfo each in pmil)
+            {
+                if (!period_types.Contains(each.Type))
+                    period_types.Add(each.Type);
+            }
+            foreach (string each in period_types)
             {
                 row = new DataGridViewRow();
                 row.CreateCells(dataGridView1);
-                row.Cells[0].Value = each.Name;
-                for (int i = 0; i < infoList.Count; i++)
+                row.Cells[0].Value = each;
+                for (int i = 0; i < amil.Count; i++)
                 {
-                    row.Cells[i + 1].Value = false;   //??
+                    row.Cells[i + 1].Value = false;
                     foreach (AbsenceMapRecord item in _MapRecords)
                     {
-                        if ( item.absence == infoList[i].Name && item.period == each.Name)
+                        if (item.absence == amil[i].Name && item.period_type == each)
                             row.Cells[i + 1].Value = true;
                     }
                 }
@@ -53,16 +60,16 @@ namespace JH.HS.DataExchange._103
             _AccessHelper.DeletedValues(_MapRecords);
             _MapRecords.Clear();
             AbsenceMapRecord amr;
-            for (int i = 0; i < infoList2.Count; i++)
+            for (int i = 0; i < period_types.Count; i++)
             {
                 DataGridViewRow row = dataGridView1.Rows[i];
-                amr = new AbsenceMapRecord();
-                amr.period = infoList2[i].Name;
-                for (int j = 0;j < infoList.Count; j++)
+                for (int j = 0; j < amil.Count; j++)
                 {
                     if ((bool)row.Cells[j + 1].Value == true)
                     {
-                        amr.absence = infoList[j].Name;
+                        amr = new AbsenceMapRecord();
+                        amr.period_type = period_types[i];
+                        amr.absence = amil[j].Name;
                         _MapRecords.Add(amr);
                     }
                 }

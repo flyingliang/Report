@@ -20,29 +20,33 @@ namespace JH.HS.DataExchange._103
         [FISCA.MainMethod]
         public static void Main()
         {
-            var button = FISCA.Presentation.MotherForm.RibbonBarItems["教務作業", "十二年國教"]["103(竹苗區會考)學生匯入資料"];
+            string ReportName = "103(竹苗區會考)學生匯入資料";
+            string UUID = "0B19567E-AAD5-4E0E-9AB0-1C9AE21612AC";
+            FISCA.Permission.Catalog cat = FISCA.Permission.RoleAclSource.Instance["教務作業"]["十二年國教"];
+            cat.Add(new FISCA.Permission.RibbonFeature(UUID, ReportName));
+            var button = FISCA.Presentation.MotherForm.RibbonBarItems["教務作業", "十二年國教"][ReportName];
             Exception error = null;
             System.ComponentModel.BackgroundWorker bkw = new System.ComponentModel.BackgroundWorker();
+            button.Enable = FISCA.Permission.UserAcl.Current[UUID].Executable;
             bkw.WorkerReportsProgress = true;
             bkw.ProgressChanged += delegate(object sender, System.ComponentModel.ProgressChangedEventArgs e)
             {
-                string message = e.ProgressPercentage == 100 ? "計算完成":"計算中...";
-                FISCA.Presentation.MotherForm.SetStatusBarMessage("103(竹苗區會考)學生匯入資料" + message, e.ProgressPercentage);
+                string message = e.ProgressPercentage == 100 ? "計算完成" : "計算中...";
+                FISCA.Presentation.MotherForm.SetStatusBarMessage(ReportName + message, e.ProgressPercentage);
             };
             bkw.RunWorkerCompleted += delegate
             {
-                 if (error != null) throw new Exception("103(竹苗區會考)學生匯入資料", error);
+                button.Enable = FISCA.Permission.UserAcl.Current[UUID].Executable;
+                if (error != null) throw new Exception(ReportName, error);
             };
             bkw.DoWork += delegate(object sender, DoWorkEventArgs e)
             {
                 try
                 {
-                    //string conf_AbsenceType = (string)e.Argument;
                     bkw.ReportProgress(1);
                     QueryHelper _Q = new QueryHelper();
                     AccessHelper _A = new AccessHelper();
                     DataTable dt = new DataTable(), tmp;
-                    //string conf_AbsenceType = "曠課";
                     #region 取得及整理資料
                     tmp = _Q.Select("select student.id from student left outer join class on student.ref_class_id=class.id where student.status = 1 and class.grade_year = 3");
                     List<string> sids = new List<string>();
@@ -69,6 +73,7 @@ namespace JH.HS.DataExchange._103
                     Dictionary<string, int> dSGsA = new Dictionary<string, int>();
                     string delimiter = "^^^";
                     #region 檢查有無曠課記錄//36~39
+                    Dictionary<string, PeriodMappingInfo> dPmi = K12.Data.PeriodMapping.SelectAll().ToDictionary(x => x.Name, x => x);
                     foreach (AttendanceRecord ar in arl)
                     {
                         int arGrade = 0;
@@ -78,13 +83,13 @@ namespace JH.HS.DataExchange._103
                             if (item.SchoolYear == ar.SchoolYear && item.Semester == ar.Semester)
                                 arGrade = item.GradeYear;
                         }
-                       
+
                         #endregion
                         foreach (AttendancePeriod ap in ar.PeriodDetail)
                         {
                             foreach (AbsenceMapRecord amr in amrl)
-	                        {
-                                if (amr.absence == ap.AbsenceType && amr.period == ap.Period)
+                            {
+                                if (amr.absence == ap.AbsenceType && dPmi.ContainsKey(ap.Period) && amr.period_type == dPmi[ap.Period].Type)
                                 {
                                     switch (arGrade + "" + ar.Semester)
                                     {
@@ -101,7 +106,7 @@ namespace JH.HS.DataExchange._103
                                             break;
                                     }
                                 }
-	                        }
+                            }
                         }
                     }
                     #endregion
@@ -284,7 +289,7 @@ namespace JH.HS.DataExchange._103
                         seq++;
                     }
                     bkw.ReportProgress(80);
-                    CompletedXls("103(竹苗區會考)學生匯入資料", dt, new Workbook());
+                    CompletedXls(ReportName, dt, new Workbook());
                     bkw.ReportProgress(100);
                 }
                 catch (Exception exc)
@@ -294,8 +299,11 @@ namespace JH.HS.DataExchange._103
             };
             button.Click += delegate
             {
-                if (  new Map().ShowDialog() == DialogResult.OK )
+                if (new Map().ShowDialog() == DialogResult.OK && !bkw.IsBusy)
+                {
+                    button.Enable = false;
                     bkw.RunWorkerAsync();
+                }
             };
         }
         public static void CompletedXls(string inputReportName, DataTable dt, Workbook inputXls)

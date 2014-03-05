@@ -13,7 +13,7 @@ namespace JH.HS.DataExchange._103
         {
         }
         [FISCA.UDT.Field]
-        public string period { get; set; }
+        public string period_type { get; set; }
         [FISCA.UDT.Field]
         public string absence { get; set; }
     }
