@@ -291,9 +291,9 @@ namespace JH.HS.DataExchange._103
                         row["身心障礙"] = string.IsNullOrEmpty(strtmp) ? "0" : strtmp;
 
                         row["就學區"] = "";//18
-                        row["低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "低收入戶") ? "1" : "";//19
-                        row["中低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "中低收入戶") ? "1" : "";//20
-                        row["失業勞工子女"] = ddSMaps.ContainsKey(csr.ID + delimiter + "失業勞工子女") ? "1" : "";//21
+                        row["低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "低收入戶") ? "1" : "0";//19
+                        row["中低收入戶"] = ddSMaps.ContainsKey(csr.ID + delimiter + "中低收入戶") ? "1" : "0";//20
+                        row["失業勞工子女"] = ddSMaps.ContainsKey(csr.ID + delimiter + "失業勞工子女") ? "1" : "0";//21
 
                         row["資料授權"] = "";//22
                         row["家長姓名"] = csr.CustodianName;//23

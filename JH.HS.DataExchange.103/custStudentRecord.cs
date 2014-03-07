@@ -114,6 +114,7 @@ namespace JH.HS.DataExchange._103
                 this.RefClassID = "" + row["ref_class_id"];
             if (row.Table.Columns.Contains("class_name"))
                 this.ClassName = "" + row["class_name"];
+            this.ClassName = this.ClassName.Substring(this.ClassName.Length >= 2 ? this.ClassName.Length - 2 : 0);
             if (row.Table.Columns.Contains("class_grade_year"))
                 this.ClassGradeYear = "" + row["class_grade_year"];
             if (row.Table.Columns.Contains("class_ref_dept_id"))
@@ -324,9 +325,9 @@ namespace JH.HS.DataExchange._103
             switch (gender)
             {
                 case "1":
-                    return "男";
+                    return "1";
                 case "0":
-                    return "女";
+                    return "2";
                 default:
                     return "";
             }
