@@ -43,7 +43,7 @@ from
 			,x5.cardiorespiratory_degree as ""9上成績""
             ,x6.cardiorespiratory_degree as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -67,7 +67,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -84,7 +84,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -101,7 +101,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -118,7 +118,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -135,7 +135,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -152,12 +152,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join $ischool_student_fitness as x1 on (''||student.id)=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1
 			left join $ischool_student_fitness as x2 on (''||student.id)=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2
@@ -176,7 +176,7 @@ from
 			,x5.sit_up_degree as ""9上成績""
             ,x6.sit_up_degree as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -200,7 +200,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -217,7 +217,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -234,7 +234,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -251,7 +251,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -268,7 +268,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -285,12 +285,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join $ischool_student_fitness as x1 on (''||student.id)=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1
 			left join $ischool_student_fitness as x2 on (''||student.id)=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2
@@ -309,7 +309,7 @@ from
 			,x5.standing_long_jump_degree as ""9上成績""
             ,x6.standing_long_jump_degree as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -333,7 +333,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -350,7 +350,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -367,7 +367,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -384,7 +384,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -401,7 +401,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -418,12 +418,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join $ischool_student_fitness as x1 on (''||student.id)=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1
 			left join $ischool_student_fitness as x2 on (''||student.id)=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2
@@ -442,7 +442,7 @@ from
 			,x5.sit_and_reach_degree as ""9上成績""
             ,x6.sit_and_reach_degree as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -466,7 +466,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -483,7 +483,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -500,7 +500,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -517,7 +517,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -534,7 +534,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -551,12 +551,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join $ischool_student_fitness as x1 on (''||student.id)=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1
 			left join $ischool_student_fitness as x2 on (''||student.id)=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2
@@ -575,7 +575,7 @@ from
 			,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""9上成績""
             ,''||COUNT(CASE WHEN (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2) THEN CASE WHEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]')  = '幹部' THEN 1 ELSE null END ELSE null END) as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -599,7 +599,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -616,7 +616,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -633,7 +633,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -650,7 +650,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -667,7 +667,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -684,12 +684,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join discipline as x1 on student.id=x1.ref_student_id and x1.merit_flag = 1
 			and (
@@ -702,7 +702,7 @@ from
 			)
 		where 
 			student.status = 1 
-			and class.grade_year = 3
+			and class.grade_year in (3, 9)
 		group by student.id
 		--_$_7 =  $behavior.thecadre
 	UNION ALL
@@ -716,7 +716,7 @@ from
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN x1.""警告"" ELSE 0 END) as ""9上成績""
             ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2) THEN x1.""警告"" ELSE 0 END) as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -740,7 +740,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -757,7 +757,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -774,7 +774,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -791,7 +791,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -808,7 +808,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -825,12 +825,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join (
 		        select 	
@@ -848,7 +848,7 @@ from
 			        left outer join discipline as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and merit_flag = 0
 			        and xpath_string(x1.detail,'/Discipline/Demerit/@Cleared') <> '是'
 			        
@@ -869,7 +869,7 @@ from
 			        left outer join sems_moral_score as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and ( 
 				        CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Demerit/@A'), '^$', '0') as integer) > 0
 				        or CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Demerit/@B'), '^$', '0')  as integer) > 0
@@ -886,7 +886,7 @@ from
 			)
 		where 
 			student.status = 1 
-			and class.grade_year = 3
+			and class.grade_year in (3, 9)
 		group by student.id
 	UNION ALL
 		select 
@@ -899,7 +899,7 @@ from
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN x1.""小過"" ELSE 0 END) as ""9上成績""
             ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2) THEN x1.""小過"" ELSE 0 END) as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -923,7 +923,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -940,7 +940,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -957,7 +957,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -974,7 +974,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -991,7 +991,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -1008,12 +1008,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join (
 		        select 	
@@ -1031,7 +1031,7 @@ from
 			        left outer join discipline as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and merit_flag = 0
 			        and xpath_string(x1.detail,'/Discipline/Demerit/@Cleared') <> '是'
 			        
@@ -1052,7 +1052,7 @@ from
 			        left outer join sems_moral_score as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and ( 
 				        CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Demerit/@A'), '^$', '0') as integer) > 0
 				        or CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Demerit/@B'), '^$', '0')  as integer) > 0
@@ -1069,7 +1069,7 @@ from
 			)
 		where 
 			student.status = 1 
-			and class.grade_year = 3
+			and class.grade_year in (3, 9)
 		group by student.id
 	UNION ALL
 		select 
@@ -1082,7 +1082,7 @@ from
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN x1.""大過"" ELSE 0 END) as ""9上成績""
             ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2) THEN x1.""大過"" ELSE 0 END) as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -1106,7 +1106,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -1123,7 +1123,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -1140,7 +1140,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -1157,7 +1157,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -1174,7 +1174,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -1191,12 +1191,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join (
 		        select 	
@@ -1214,7 +1214,7 @@ from
 			        left outer join discipline as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and merit_flag = 0
 			        and xpath_string(x1.detail,'/Discipline/Demerit/@Cleared') <> '是'
 			        
@@ -1235,7 +1235,7 @@ from
 			        left outer join sems_moral_score as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and ( 
 				        CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Demerit/@A'), '^$', '0') as integer) > 0
 				        or CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Demerit/@B'), '^$', '0')  as integer) > 0
@@ -1252,7 +1252,7 @@ from
 			    )
 		where 
 			student.status = 1 
-			and class.grade_year = 3
+			and class.grade_year in (3, 9)
 		group by student.id
 	UNION ALL
 		select 
@@ -1265,7 +1265,7 @@ from
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN x1.""嘉獎"" ELSE 0 END) as ""9上成績""
             ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2) THEN x1.""嘉獎"" ELSE 0 END) as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -1289,7 +1289,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -1306,7 +1306,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -1323,7 +1323,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -1340,7 +1340,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -1357,7 +1357,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -1374,12 +1374,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join  (
 		        select 	
@@ -1397,7 +1397,7 @@ from
 			        left outer join discipline as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and merit_flag = 1
 		        UNION ALL
 
@@ -1416,7 +1416,7 @@ from
 			        left outer join sems_moral_score as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and ( 
 				        CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@A'), '^$', '0') as integer) > 0
 				        or CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@B'), '^$', '0')  as integer) > 0
@@ -1433,7 +1433,7 @@ from
 			    )
 		where 
 			student.status = 1 
-			and class.grade_year = 3
+			and class.grade_year in (3, 9)
 		group by student.id
 	UNION ALL
 		select 
@@ -1446,7 +1446,7 @@ from
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN x1.""小功"" ELSE 0 END) as ""9上成績""
             ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2) THEN x1.""小功"" ELSE 0 END) as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -1470,7 +1470,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -1487,7 +1487,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -1504,7 +1504,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -1521,7 +1521,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -1538,7 +1538,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -1555,12 +1555,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join (
 		        select 	
@@ -1578,7 +1578,7 @@ from
 			        left outer join discipline as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and merit_flag = 1
 		        UNION ALL
 
@@ -1597,7 +1597,7 @@ from
 			        left outer join sems_moral_score as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and ( 
 				        CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@A'), '^$', '0') as integer) > 0
 				        or CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@B'), '^$', '0')  as integer) > 0
@@ -1614,7 +1614,7 @@ from
 			    )
 		where 
 			student.status = 1 
-			and class.grade_year = 3
+			and class.grade_year in (3, 9)
 		group by student.id
 	UNION ALL
 		select 
@@ -1627,7 +1627,7 @@ from
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN x1.""大功"" ELSE 0 END) as ""9上成績""
             ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2) THEN x1.""大功"" ELSE 0 END) as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -1651,7 +1651,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -1668,7 +1668,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -1685,7 +1685,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -1702,7 +1702,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -1719,7 +1719,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -1736,12 +1736,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join (
 		        select 	
@@ -1759,7 +1759,7 @@ from
 			        left outer join discipline as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and merit_flag = 1
 		        UNION ALL
 
@@ -1778,7 +1778,7 @@ from
 			        left outer join sems_moral_score as x1 on student.id=x1.ref_student_id
 		        where 
 			        student.status = 1 
-			        and class.grade_year = 3
+			        and class.grade_year in (3, 9)
 			        and ( 
 				        CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@A'), '^$', '0') as integer) > 0
 				        or CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@B'), '^$', '0')  as integer) > 0
@@ -1795,7 +1795,7 @@ from
 			    )
 		where 
 			student.status = 1 
-			and class.grade_year = 3
+			and class.grade_year in (3, 9)
 		group by student.id
 	UNION ALL
 		select student.id
@@ -1807,7 +1807,7 @@ from
 			,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear5 and x1.semester= 1) THEN x1.hours ELSE 0 END) as ""9上成績""
             ,''||sum(CASE WHEN (''||x1.school_year=shistory.schoolyear6 and x1.semester= 2) THEN x1.hours ELSE 0 END) as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -1831,7 +1831,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -1848,7 +1848,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -1865,7 +1865,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -1882,7 +1882,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -1899,7 +1899,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -1916,12 +1916,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join $k12.service.learning.record as x1 on (''||student.id)=x1.ref_student_id 
 			    and (
@@ -1944,7 +1944,7 @@ from
 			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績') as ""9上成績""
             ,xpath_string('<root>'||x6.score_info||'</root>','/root/Domains/Domain[@領域=''綜合活動'']/@成績') as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -1968,7 +1968,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -1985,7 +1985,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -2002,7 +2002,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -2019,7 +2019,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -2036,7 +2036,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -2053,12 +2053,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join sems_subj_score as x1 on student.id=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1 and x1.semester= 1
 			left join sems_subj_score as x2 on student.id=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2 and x2.semester= 2
@@ -2076,7 +2076,7 @@ from
 			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績') as ""9上成績""
             ,xpath_string('<root>'||x6.score_info||'</root>','/root/Domains/Domain[@領域=''健康與體育'']/@成績') as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -2100,7 +2100,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -2117,7 +2117,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -2134,7 +2134,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -2151,7 +2151,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -2168,7 +2168,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -2185,12 +2185,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join sems_subj_score as x1 on student.id=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1 and x1.semester= 1
 			left join sems_subj_score as x2 on student.id=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2 and x2.semester= 2
@@ -2208,7 +2208,7 @@ from
 			,xpath_string('<root>'||x5.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""9上成績""
             ,xpath_string('<root>'||x6.score_info||'</root>','/root/Domains/Domain[@領域=''藝術與人文'']/@成績') as ""9下成績""
 		from 
-			student join class on student.ref_class_id=class.id and class.grade_year = 3
+			student join class on student.ref_class_id=class.id and class.grade_year in (3, 9)
 			left join (
 				SELECT student.id
 	                , ''||g1.SchoolYear as schoolyear1
@@ -2232,7 +2232,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g1 on g1.id=student.id 
@@ -2249,7 +2249,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g2 on g2.id=student.id 
@@ -2266,7 +2266,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g3 on g3.id=student.id 
@@ -2283,7 +2283,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g4 on g4.id=student.id 
@@ -2300,7 +2300,7 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g5 on g5.id=student.id 
@@ -2317,12 +2317,12 @@ from
 							from 
 								student 
 								LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-							WHERE student.status=1 AND class.grade_year = 3 )'
+							WHERE student.status=1 AND class.grade_year in (3, 9) )'
 						) AS tmp(id int, SchoolYear integer) 
 					group by id 
 				)as g6 on g6.id=student.id 
 				LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-				WHERE student.status=1 AND class.grade_year = 3
+				WHERE student.status=1 AND class.grade_year in (3, 9)
             )shistory on student.id=shistory.id
 			left join sems_subj_score as x1 on student.id=x1.ref_student_id and (''||x1.school_year)=shistory.schoolyear1 and x1.semester= 1
 			left join sems_subj_score as x2 on student.id=x2.ref_student_id and (''||x2.school_year)=shistory.schoolyear2 and x2.semester= 2
@@ -2331,7 +2331,7 @@ from
 			left join sems_subj_score as x5 on student.id=x5.ref_student_id and (''||x5.school_year)=shistory.schoolyear5 and x5.semester= 1
             left join sems_subj_score as x6 on student.id=x6.ref_student_id and (''||x6.school_year)=shistory.schoolyear6 and x6.semester= 2
 	)s1 on s1.id = student.id
-where student.status = 1 and class.grade_year = 3
+where student.status = 1 and class.grade_year in (3, 9)
 order by class.display_order, class_name, seat_no
 ";
 
@@ -2387,7 +2387,7 @@ from
 					from 
 						student 
 						LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-					WHERE student.status=1 AND class.grade_year = 3 )'
+					WHERE student.status=1 AND class.grade_year in (3, 9) )'
 				) AS tmp(id int, SchoolYear integer) 
 			group by id 
 		)as g1 on g1.id=student.id 
@@ -2404,7 +2404,7 @@ from
 					from 
 						student 
 						LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-					WHERE student.status=1 AND class.grade_year = 3 )'
+					WHERE student.status=1 AND class.grade_year in (3, 9) )'
 				) AS tmp(id int, SchoolYear integer) 
 			group by id 
 		)as g2 on g2.id=student.id 
@@ -2421,7 +2421,7 @@ from
 					from 
 						student 
 						LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-					WHERE student.status=1 AND class.grade_year = 3 )'
+					WHERE student.status=1 AND class.grade_year in (3, 9) )'
 				) AS tmp(id int, SchoolYear integer) 
 			group by id 
 		)as g3 on g3.id=student.id 
@@ -2438,7 +2438,7 @@ from
 					from 
 						student 
 						LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-					WHERE student.status=1 AND class.grade_year = 3 )'
+					WHERE student.status=1 AND class.grade_year in (3, 9) )'
 				) AS tmp(id int, SchoolYear integer) 
 			group by id 
 		)as g4 on g4.id=student.id 
@@ -2455,7 +2455,7 @@ from
 					from 
 						student 
 						LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-					WHERE student.status=1 AND class.grade_year = 3 )'
+					WHERE student.status=1 AND class.grade_year in (3, 9) )'
 				) AS tmp(id int, SchoolYear integer) 
 			group by id 
 		)as g5 on g5.id=student.id 
@@ -2472,12 +2472,12 @@ from
 					from 
 						student 
 						LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-					WHERE student.status=1 AND class.grade_year = 3 )'
+					WHERE student.status=1 AND class.grade_year in (3, 9) )'
 				) AS tmp(id int, SchoolYear integer) 
 			group by id 
 		)as g6 on g6.id=student.id 
 		LEFT OUTER JOIN class ON student.ref_class_id = class.id 
-		WHERE student.status=1 AND class.grade_year = 3
+		WHERE student.status=1 AND class.grade_year in (3, 9)
 	)shistory on student.id=shistory.id
 	left outer join (
 		select 	
@@ -2495,7 +2495,7 @@ from
 			left outer join discipline as x1 on student.id=x1.ref_student_id
 		where 
 			student.status = 1 
-			and class.grade_year = 3
+			and class.grade_year in (3, 9)
 			and merit_flag = 1
 		UNION ALL
 
@@ -2514,7 +2514,7 @@ from
 			left outer join sems_moral_score as x1 on student.id=x1.ref_student_id
 		where 
 			student.status = 1 
-			and class.grade_year = 3
+			and class.grade_year in (3, 9)
 			and ( 
 				CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@A'), '^$', '0') as integer) > 0
 				or CAST( regexp_replace( xpath_string(x1.initial_summary,'/InitialSummary/DisciplineStatistics/Merit/@B'), '^$', '0')  as integer) > 0
@@ -2523,7 +2523,7 @@ from
 	)as x1 on student.id=x1.ref_student_id
 where 
 	student.status = 1 
-	and class.grade_year = 3
+	and class.grade_year in (3, 9)
 	and (
 		(x1.school_year=shistory.schoolyear1 and x1.semester= 1)
 		or (x1.school_year=shistory.schoolyear2 and x1.semester= 2)

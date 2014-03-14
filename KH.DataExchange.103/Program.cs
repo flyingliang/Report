@@ -45,8 +45,9 @@ namespace KH.DataExchange._103
                     bkw.ReportProgress(1);
                     QueryHelper _Q = new QueryHelper();
                     DataTable dt_source, student;
-                    student = _Q.Select("select student.id from student left outer join class on student.ref_class_id=class.id where student.status = 1 and class.grade_year = 3");
+                    student = _Q.Select("select student.id from student left outer join class on student.ref_class_id=class.id where student.status = 1 and class.grade_year in (3, 9)");
                     List<string> sids = new List<string>();
+                    sids.Add("-1");
                     foreach (DataRow row in student.Rows)
                     {
                         sids.Add("" + row[0]);
