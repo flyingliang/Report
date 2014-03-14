@@ -2487,8 +2487,8 @@ from
 			,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@A'), '^$', '0') as integer) as ""大功""
 			,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@B'), '^$', '0') as integer) as ""小功""
 			,CAST( regexp_replace( xpath_string(x1.detail,'/Discipline/Merit/@C'), '^$', '0') as integer) as ""嘉獎""
-			,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN btrim( substring(x1.reason from E'^[\[].*[\]]'),'[]') END as ""事由類別""
-			,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN ltrim( x1.reason,substring(x1.reason from E'^[\[].*[\]]')) ELSE x1.reason END as ""事由""
+			,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN substring(x1.reason, 2, position( ']' in x1.reason )-2) END as ""事由類別""		
+			,CASE WHEN x1.reason ~ E'^[\[].*[\]]' THEN substring(x1.reason, position( ']' in x1.reason ) + 1 ) ELSE x1.reason END as ""事由""
 		from 
 			student
 			left outer join class on student.ref_class_id=class.id
